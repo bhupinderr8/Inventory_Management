@@ -30,5 +30,17 @@ public class StockContract {
                 StockContract.StockEntry.COLUMN_SUPPLIER_PHONE + " TEXT NOT NULL," +
                 StockContract.StockEntry.COLUMN_SUPPLIER_EMAIL + " TEXT NOT NULL," +
                 StockEntry.COLUMN_IMAGE + " TEXT NOT NULL" + ");";
+
+        public static final String USER_TABLE_NAME = "user";
+        public static final String USER_COLUMN_NAME = "name";
+        public static final String USER_PASSWORD= "password";
+        public static final String USER_ISADMIN = "isadmin";
+
+        public static final String CREATE_TABLE_USER = "CREATE TABLE " +
+                StockContract.StockEntry.USER_TABLE_NAME + "(" +
+                StockContract.StockEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                StockContract.StockEntry.USER_COLUMN_NAME + " TEXT NOT NULL," +
+                StockContract.StockEntry.USER_PASSWORD + " TEXT NOT NULL," +
+                StockContract.StockEntry.USER_ISADMIN + " INTEGER NOT NULL DEFAULT 0)";
     }
 }

@@ -18,6 +18,7 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(StockContract.StockEntry.CREATE_TABLE_STOCK);
+        sqLiteDatabase.execSQL(StockContract.StockEntry.CREATE_TABLE_USER);
     }
 
     @Override
@@ -38,6 +39,15 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         long id = db.insert(StockContract.StockEntry.TABLE_NAME, null, values);
     }
 
+    public void insertItem(UserItem item) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(StockContract.StockEntry.USER_COLUMN_NAME, item.getUserName());
+        values.put(StockContract.StockEntry.USER_PASSWORD, item.getPassword());
+        values.put(StockContract.StockEntry.USER_ISADMIN, item.getAdmin());
+        long id = db.insert(StockContract.StockEntry.USER_TABLE_NAME, null, values);
+    }
+
     public Cursor readStock() {
         SQLiteDatabase db = getReadableDatabase();
         String[] projection = {
@@ -52,6 +62,26 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         };
         Cursor cursor = db.query(
                 StockContract.StockEntry.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        return cursor;
+    }
+
+    public Cursor readUserlList() {
+        SQLiteDatabase db = getReadableDatabase();
+        String[] projection = {
+                StockContract.StockEntry._ID,
+                StockContract.StockEntry.USER_COLUMN_NAME,
+                StockContract.StockEntry.USER_PASSWORD,
+                StockContract.StockEntry.USER_ISADMIN
+        };
+        Cursor cursor = db.query(
+                StockContract.StockEntry.USER_TABLE_NAME,
                 projection,
                 null,
                 null,
@@ -79,6 +109,28 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.query(
                 StockContract.StockEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+        return cursor;
+    }
+
+    public Cursor readUser(String userName) {
+        SQLiteDatabase db = getReadableDatabase();
+        String[] projection = {
+                StockContract.StockEntry.USER_PASSWORD,
+                StockContract.StockEntry.USER_ISADMIN
+        };
+
+        String selection = StockContract.StockEntry.USER_COLUMN_NAME + "=?";
+        String[] selectionArgs = new String[]{userName};
+
+        Cursor cursor = db.query(
+                StockContract.StockEntry.USER_TABLE_NAME,
                 projection,
                 selection,
                 selectionArgs,

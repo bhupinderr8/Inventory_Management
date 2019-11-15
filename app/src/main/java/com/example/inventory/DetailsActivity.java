@@ -113,7 +113,7 @@ public class DetailsActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // User clicked "Discard" button, close the current activity.
+                        // UserItem clicked "Discard" button, close the current activity.
                         finish();
                     }
                 };
@@ -201,7 +201,7 @@ public class DetailsActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                // User clicked "Discard" button, navigate to parent activity.
+                                // UserItem clicked "Discard" button, navigate to parent activity.
                                 NavUtils.navigateUpFromSameTask(DetailsActivity.this);
                             }
                         };
