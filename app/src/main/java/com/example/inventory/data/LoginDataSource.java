@@ -1,6 +1,8 @@
 package com.example.inventory.data;
 
+import android.content.Context;
 import android.database.Cursor;
+import android.widget.Toast;
 
 import com.example.inventory.data.model.LoggedInUser;
 
@@ -12,6 +14,13 @@ import java.io.IOException;
 public class LoginDataSource {
 
     private InventoryDbHelper dbHelper;
+    private Context mContext;
+
+
+    public LoginDataSource(Context mContext) {
+        this.mContext = mContext;
+        dbHelper = new InventoryDbHelper(mContext);
+    }
 
     public Result<LoggedInUser> login(String username, String password) {
 
@@ -21,6 +30,12 @@ public class LoginDataSource {
             if(username.equals("admin123") && password.equals("admin123"))
             {
                 LoggedInUser u = new LoggedInUser(username, username, 1);
+                return new Result.Success<>(u);
+            }
+
+            if(username.equals("user123") && password.equals("user123"))
+            {
+                LoggedInUser u = new LoggedInUser(username, username);
                 return new Result.Success<>(u);
             }
 
@@ -44,6 +59,7 @@ public class LoginDataSource {
 
     public void logout() {
         // TODO: revoke authentication
+
 
     }
 }

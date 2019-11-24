@@ -40,4 +40,5 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="welcome">Logged In</string>
+    <string name="add_user">ADD_USER</string>
 </resources>
