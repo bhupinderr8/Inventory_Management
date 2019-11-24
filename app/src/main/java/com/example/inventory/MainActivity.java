@@ -13,6 +13,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.example.inventory.data.InventoryDbHelper;
+import com.example.inventory.data.Session;
 import com.example.inventory.data.StockItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -22,11 +23,14 @@ public class MainActivity extends AppCompatActivity {
     InventoryDbHelper dbHelper;
     StockCursorAdapter adapter;
     int lastVisibleItem = 0;
+    Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        session = new Session(this);
+        this.setTitle(session.getUserName());
 
         dbHelper = new InventoryDbHelper(this);
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -86,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
         return true;
     }
 
@@ -96,8 +101,21 @@ public class MainActivity extends AppCompatActivity {
                 // add dummy data for testing
                 addDummyData();
                 adapter.swapCursor(dbHelper.readStock());
+                break;
+            case R.id.logout:
+                launchLoginActivity();
+                break;
+
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void launchLoginActivity()
+    {
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        session.doLogout();
+        startActivity(intent);
+        finish();
     }
 
     private void addDummyData() {

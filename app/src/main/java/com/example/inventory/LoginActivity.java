@@ -12,17 +12,17 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.inventory.data.InventoryDbHelper;
+import com.example.inventory.data.Session;
 import com.example.inventory.data.StockContract;
 import com.example.inventory.data.UserItem;
 
 public class LoginActivity extends AppCompatActivity {
-
-    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private Button registerButton;
     private EditText usernameEditText;
     private EditText passwordEditText;
     private InventoryDbHelper dbHelper;
     private Button loginButton;
+    private Session session;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,9 +31,16 @@ public class LoginActivity extends AppCompatActivity {
         dbHelper = new InventoryDbHelper(this);
         usernameEditText = findViewById(R.id.username);
         passwordEditText = findViewById(R.id.password);
-        final ProgressBar loadingProgressBar = findViewById(R.id.loading);
         registerButton = findViewById(R.id.register);
         loginButton = findViewById(R.id.login);
+        session = new Session(this);
+
+        if(session.isLogin())
+        {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            clearText();
+            startActivity(intent);
+        }
 
     }
 
@@ -61,48 +68,33 @@ public class LoginActivity extends AppCompatActivity {
         return false;
     }
 
-    private void hideButtons()
+    private boolean isValidCredentials()
     {
-        registerButton.setEnabled(false);
-        loginButton.setEnabled(false);
-    }
-
-    private void showButtons()
-    {
-        registerButton.setEnabled(true);
-        loginButton.setEnabled(true);
-    }
-
-    private boolean validCredentials()
-    {
-//        hideButtons();
 
         if(usernameEditText.getText().toString().length()<5)
         {
             Toast.makeText(getApplicationContext(), "USERNAME SHORT", Toast.LENGTH_LONG).show();
-            return false;
+            return true;
 
         }
         else if(passwordEditText.getText().toString().length()<5)
         {
             Toast.makeText(getApplicationContext(), "PASSWORD SHORT", Toast.LENGTH_LONG).show();
-            return false;
+            return true;
 
         }
-        return true;
-//        showButtons();
+        return false;
     }
 
     public void loginUser(android.view.View view)
     {
-        hideButtons();
-
-        if(!validCredentials())
+        String username = usernameEditText.getText().toString();
+        if(isValidCredentials())
         {
             return;
 
         }
-        else if(!validUser(usernameEditText.getText().toString(), passwordEditText.getText().toString()))
+        else if(!validUser(username, passwordEditText.getText().toString()))
         {
             Toast.makeText(getApplicationContext(), "INVALID USERNAME OR PASSWORD", Toast.LENGTH_LONG).show();
         }
@@ -110,9 +102,11 @@ public class LoginActivity extends AppCompatActivity {
         {
             Toast.makeText(getApplicationContext(), "WELCOME", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            clearText();
             startActivity(intent);
+            session.doLogin(username);
+            finish();
         }
-        showButtons();
 
     }
 
@@ -126,9 +120,15 @@ public class LoginActivity extends AppCompatActivity {
         return cursor.moveToNext();
     }
 
+    private void clearText()
+    {
+        usernameEditText.getText().clear();
+        passwordEditText.getText().clear();
+    }
+
     public void registerUser(android.view.View view)
     {
-        if(!validCredentials())
+        if(isValidCredentials())
             return;
         if(validUserName())
         {
@@ -140,7 +140,10 @@ public class LoginActivity extends AppCompatActivity {
         dbHelper.insertUser(user);
         Toast.makeText(getApplicationContext(), "REGISTERED", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        clearText();
+        session.doLogin(usernameEditText.getText().toString());
         startActivity(intent);
+        finish();
 
     }
 }
