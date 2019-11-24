@@ -5,7 +5,7 @@ public class UserItem {
     private final String password;
     private final Boolean isAdmin;
 
-    UserItem(String userName, String password, Boolean isAdmin)
+    public UserItem(String userName, String password, Boolean isAdmin)
     {
         this.isAdmin = isAdmin;
         this.password = password;

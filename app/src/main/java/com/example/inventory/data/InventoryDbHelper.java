@@ -40,7 +40,7 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         long id = db.insert(StockContract.StockEntry.TABLE_NAME, null, values);
     }
 
-    public void insertItem(UserItem item) {
+    public void insertUser(UserItem item) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(StockContract.StockEntry.USER_COLUMN_NAME, item.getUserName());
