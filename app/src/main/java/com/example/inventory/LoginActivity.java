@@ -73,19 +73,33 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setEnabled(true);
     }
 
-    public void loginUser(android.view.View view)
+    private boolean validCredentials()
     {
-        hideButtons();
+//        hideButtons();
 
         if(usernameEditText.getText().toString().length()<5)
         {
             Toast.makeText(getApplicationContext(), "USERNAME SHORT", Toast.LENGTH_LONG).show();
-
+            return false;
 
         }
         else if(passwordEditText.getText().toString().length()<5)
         {
             Toast.makeText(getApplicationContext(), "PASSWORD SHORT", Toast.LENGTH_LONG).show();
+            return false;
+
+        }
+        return true;
+//        showButtons();
+    }
+
+    public void loginUser(android.view.View view)
+    {
+        hideButtons();
+
+        if(!validCredentials())
+        {
+            return;
 
         }
         else if(!validUser(usernameEditText.getText().toString(), passwordEditText.getText().toString()))
@@ -114,6 +128,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void registerUser(android.view.View view)
     {
+        if(!validCredentials())
+            return;
         if(validUserName())
         {
             Toast.makeText(getApplicationContext(), "USERNAME EXISTS", Toast.LENGTH_LONG).show();
