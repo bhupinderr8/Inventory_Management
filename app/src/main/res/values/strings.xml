@@ -43,4 +43,15 @@
     <string name="add_user">ADD_USER</string>
     <string name="register">Register</string>
     <string name="logout">Logout</string>
+    <string name="user_name">User Name</string>
+    <string name="add_items">ADD ITEMS</string>
+    <string name="new_order">NEW ORDER</string>
+    <string name="view_items">VIEW ITEMS</string>
+    <string name="enter_product_name">Enter Product Name</string>
+    <string name="qty">Qty</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="supplier">Supplier</string>
+    <string name="item_description">item Description</string>
+    <string name="description">Description</string>
 </resources>
