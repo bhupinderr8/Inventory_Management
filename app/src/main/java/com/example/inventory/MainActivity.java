@@ -1,29 +1,28 @@
 package com.example.inventory;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 
-import com.example.inventory.data.InventoryDbHelper;
+import com.example.inventory.data.FireBaseHelper;
 import com.example.inventory.data.Session;
-import com.example.inventory.data.StockItem;
+import com.example.inventory.dataObject.itemObject;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
     private final static String LOG_TAG = MainActivity.class.getCanonicalName();
-    InventoryDbHelper dbHelper;
-    StockCursorAdapter adapter;
-    int lastVisibleItem = 0;
-    Session session;
+    private FireBaseHelper dbHelper;
+    private Session session;
+    private RecyclerView recyclerView;
+    ItemAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,17 @@ public class MainActivity extends AppCompatActivity {
         session = new Session(this);
         this.setTitle(session.getUserName());
 
-        dbHelper = new InventoryDbHelper(this);
+        dbHelper = new FireBaseHelper();
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        FirebaseRecyclerOptions<itemObject> options =
+                new FirebaseRecyclerOptions.Builder<itemObject>()
+                        .setQuery(dbHelper.getItemRef(), itemObject.class)
+                        .build();
+
+        adapter = new ItemAdapter(options);
+        recyclerView.setAdapter(adapter);
+
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,38 +51,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final ListView listView = (ListView) findViewById(R.id.list_view);
-        View emptyView = findViewById(R.id.empty_view);
-        listView.setEmptyView(emptyView);
 
-        Cursor cursor = dbHelper.readStock();
 
-        adapter = new StockCursorAdapter(this, cursor);
-        listView.setAdapter((ListAdapter) adapter);
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if(scrollState == 0) return;
-                final int currentFirstVisibleItem = view.getFirstVisiblePosition();
-                if (currentFirstVisibleItem > lastVisibleItem) {
-                    fab.show();
-                } else if (currentFirstVisibleItem < lastVisibleItem) {
-                    fab.hide();
-                }
-                lastVisibleItem = currentFirstVisibleItem;
-            }
+    }
 
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
 
-            }
-        });
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        adapter.swapCursor(dbHelper.readStock());
     }
 
     public void clickOnViewItem(long id) {
@@ -82,9 +78,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void clickOnSale(long id, int quantity) {
+    public void clickOnSale(String id, int quantity) {
         dbHelper.sellOneItem(id, quantity);
-        adapter.swapCursor(dbHelper.readStock());
     }
 
     @Override
@@ -100,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_add_dummy_data:
                 // add dummy data for testing
                 addDummyData();
-                adapter.swapCursor(dbHelper.readStock());
                 break;
             case R.id.logout:
                 launchLoginActivity();
@@ -119,14 +113,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addDummyData() {
-        StockItem gummibears = new StockItem(
+
+        itemObject gummibears = new itemObject(
                 "Bottle",
-                "10 Rs",
+                "android.resource://com.example.inventory/drawable/bottle",
+                "Bottle Good.",
                 97,
-                "Creative",
-                "+91855701-8990",
-                "97@gmail.com",
-                "android.resource://com.example.inventory/drawable/bottle");
+                97
+        );
         dbHelper.insertItem(gummibears);
     }
 }

@@ -1,17 +1,27 @@
 package com.example.inventory.dataObject;
 
 public class itemObject {
+
     private String itemName;
     private String itemNumber;
     private String image;
+    private Integer price;
     private String description;
     private Integer qty;
 
-    public itemObject(String itemName, String image, String description, Integer qty) {
+    public itemObject() {
+    }
+
+    public itemObject(String itemName, String image, String description, Integer qty, Integer price) {
         this.itemName = itemName;
         this.image = image;
         this.description = description;
         this.qty = qty;
+        this.price = price;
+    }
+
+    public String getItemNumber() {
+        return itemNumber;
     }
 
     public String getItemName() {
@@ -44,5 +54,9 @@ public class itemObject {
 
     public void setQty(Integer qty) {
         this.qty = qty;
+    }
+
+    public int getPrice() {
+        return price;
     }
 }

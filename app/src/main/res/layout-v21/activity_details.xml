@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/nameEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -40,10 +40,10 @@
         android:layout_marginTop="16dp"
         android:text="@string/qty"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/nameEdit" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/qtyDecrementButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/qtyEditText"
         android:layout_width="184dp"
         android:layout_height="46dp"
         android:layout_marginStart="16dp"
@@ -62,18 +62,18 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="number"
-        app:layout_constraintStart_toEndOf="@+id/button"
+        app:layout_constraintStart_toEndOf="@+id/qtyDecrementButton"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/qtyIncrementButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/plus"
-        app:layout_constraintStart_toEndOf="@+id/editText3"
+        app:layout_constraintStart_toEndOf="@+id/qtyEditText"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <TextView
@@ -85,10 +85,10 @@
         android:layout_marginTop="16dp"
         android:text="@string/supplier"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/qtyDecrementButton" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/supplierOptionSpinner"
         android:layout_width="0dp"
         android:layout_height="32dp"
         android:layout_marginStart="16dp"
@@ -109,10 +109,10 @@
         android:layout_marginTop="16dp"
         android:text="@string/select_image"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/supplierOptionSpinner" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/itemImage"
         android:layout_width="368dp"
         android:layout_height="253dp"
         android:layout_marginStart="16dp"
@@ -137,10 +137,10 @@
         android:layout_marginTop="16dp"
         android:text="@string/item_description"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/itemImage" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/itemDescription"
         android:layout_width="408dp"
         android:layout_height="83dp"
         android:ems="10"

@@ -2,7 +2,7 @@ package com.example.inventory.dataObject;
 
 import java.util.Date;
 
-public class shopKeeperObject {
+public class userObject {
     private String name;
     private String employeeNumber;
     private String Address;
@@ -35,7 +35,7 @@ public class shopKeeperObject {
         return phoneNumber;
     }
 
-    public shopKeeperObject(String name, String address, Integer salary, String accountNumber, Date birthDate, String phoneNumber) {
+    public userObject(String name, String address, Integer salary, String accountNumber, Date birthDate, String phoneNumber) {
         this.name = name;
         Address = address;
         Salary = salary;

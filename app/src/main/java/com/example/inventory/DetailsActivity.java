@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -25,25 +22,25 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NavUtils;
 import androidx.core.content.ContextCompat;
 
-import com.example.inventory.data.InventoryDbHelper;
-import com.example.inventory.data.StockContract;
-import com.example.inventory.data.StockItem;
+import com.example.inventory.data.FireBaseHelper;
+import com.example.inventory.dataObject.itemObject;
 
 public class DetailsActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = DetailsActivity.class.getCanonicalName();
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-    private InventoryDbHelper dbHelper;
+    private FireBaseHelper dbHelper;
     EditText nameEdit;
     EditText priceEdit;
     EditText quantityEdit;
     EditText supplierNameEdit;
     EditText supplierPhoneEdit;
     EditText supplierEmailEdit;
-    long currentItemId;
-    ImageButton decreaseQuantity;
-    ImageButton increaseQuantity;
+    String currentItemId;
+    Button decreaseQuantity;
+    Button increaseQuantity;
     Button imageBtn;
+    EditText itemDescription;
     ImageView imageView;
     Uri actualUri;
     private static final int PICK_IMAGE_REQUEST = 0;
@@ -57,21 +54,18 @@ public class DetailsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        nameEdit = (EditText) findViewById(R.id.product_name_edit);
-        priceEdit = (EditText) findViewById(R.id.price_edit);
-        quantityEdit = (EditText) findViewById(R.id.quantity_edit);
-        supplierNameEdit = (EditText) findViewById(R.id.supplier_name_edit);
-        supplierPhoneEdit = (EditText) findViewById(R.id.supplier_phone_edit);
-        supplierEmailEdit = (EditText) findViewById(R.id.supplier_email_edit);
-        decreaseQuantity = (ImageButton) findViewById(R.id.decrease_quantity);
-        increaseQuantity = (ImageButton) findViewById(R.id.increase_quantity);
-        imageBtn = (Button) findViewById(R.id.select_image);
+        nameEdit = (EditText) findViewById(R.id.nameEdit);
+        priceEdit = (EditText) findViewById(R.id.priceEditText);
+        quantityEdit = (EditText) findViewById(R.id.qtyEditText);
+        decreaseQuantity = (Button) findViewById(R.id.qtyDecrementButton);
+        increaseQuantity = (Button) findViewById(R.id.qtyIncrementButton);
+        imageBtn = (Button) findViewById(R.id.selectImageButton);
         imageView = (ImageView) findViewById(R.id.image_view);
+        itemDescription = findViewById(R.id.itemDescription);
+        dbHelper = new FireBaseHelper();
+        currentItemId = getIntent().getExtras().getString("ItemId", null);
 
-        dbHelper = new InventoryDbHelper(this);
-        currentItemId = getIntent().getLongExtra("itemId", 0);
-
-        if (currentItemId == 0) {
+        if (currentItemId == null) {
             setTitle(getString(R.string.editor_activity_title_new_item));
         } else {
             setTitle(getString(R.string.editor_activity_title_edit_item));
@@ -170,7 +164,7 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if (currentItemId == 0) {
+        if (currentItemId == null) {
             MenuItem deleteOneItemMenuItem = menu.findItem(R.id.action_delete_item);
             MenuItem deleteAllMenuItem = menu.findItem(R.id.action_delete_all_data);
             MenuItem orderMenuItem = menu.findItem(R.id.action_order);
@@ -218,7 +212,7 @@ public class DetailsActivity extends AppCompatActivity {
                 return true;
             case R.id.action_delete_all_data:
                 //delete all data
-                showDeleteConfirmationDialog(0);
+                showDeleteConfirmationDialog(null);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -244,7 +238,7 @@ public class DetailsActivity extends AppCompatActivity {
         if (!checkIfValueSet(supplierEmailEdit, "supplier email")) {
             isAllOk = false;
         }
-        if (actualUri == null && currentItemId == 0) {
+        if (actualUri == null && currentItemId == null) {
             isAllOk = false;
             imageBtn.setError("Missing image");
         }
@@ -252,16 +246,15 @@ public class DetailsActivity extends AppCompatActivity {
             return false;
         }
 
-        if (currentItemId == 0) {
-            StockItem item = new StockItem(
+        if (currentItemId == null) {
+            itemObject itemObj = new itemObject(
                     nameEdit.getText().toString().trim(),
-                    priceEdit.getText().toString().trim(),
+                    imageView.toString(),
+                    itemDescription.getText().toString(),
                     Integer.parseInt(quantityEdit.getText().toString().trim()),
-                    supplierNameEdit.getText().toString().trim(),
-                    supplierPhoneEdit.getText().toString().trim(),
-                    supplierEmailEdit.getText().toString().trim(),
-                    actualUri.toString());
-            dbHelper.insertItem(item);
+                    Integer.parseInt(priceEdit.getText().toString().trim())
+            );
+            dbHelper.insertItem(itemObj);
         } else {
             int quantity = Integer.parseInt(quantityEdit.getText().toString().trim());
             dbHelper.updateItem(currentItemId, quantity);
@@ -279,21 +272,15 @@ public class DetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void addValuesToEditItem(long itemId) {
-        Cursor cursor = dbHelper.readItem(itemId);
-        cursor.moveToFirst();
-        nameEdit.setText(cursor.getString(cursor.getColumnIndex(StockContract.StockEntry.COLUMN_NAME)));
-        priceEdit.setText(cursor.getString(cursor.getColumnIndex(StockContract.StockEntry.COLUMN_PRICE)));
-        quantityEdit.setText(cursor.getString(cursor.getColumnIndex(StockContract.StockEntry.COLUMN_QUANTITY)));
-        supplierNameEdit.setText(cursor.getString(cursor.getColumnIndex(StockContract.StockEntry.COLUMN_SUPPLIER_NAME)));
-        supplierPhoneEdit.setText(cursor.getString(cursor.getColumnIndex(StockContract.StockEntry.COLUMN_SUPPLIER_PHONE)));
-        supplierEmailEdit.setText(cursor.getString(cursor.getColumnIndex(StockContract.StockEntry.COLUMN_SUPPLIER_EMAIL)));
-        imageView.setImageURI(Uri.parse(cursor.getString(cursor.getColumnIndex(StockContract.StockEntry.COLUMN_IMAGE))));
+    private void addValuesToEditItem(String itemId) {
+        itemObject item = dbHelper.getItem(itemId);
+
+        nameEdit.setText(item.getItemName());
+        priceEdit.setText(item.getPrice());
+        quantityEdit.setText(item.getQty());
+        imageView.setImageURI(Uri.parse(item.getImage()));
         nameEdit.setEnabled(false);
         priceEdit.setEnabled(false);
-        supplierNameEdit.setEnabled(false);
-        supplierPhoneEdit.setEnabled(false);
-        supplierEmailEdit.setEnabled(false);
         imageBtn.setEnabled(false);
     }
 
@@ -327,25 +314,19 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private int deleteAllRowsFromTable() {
-        SQLiteDatabase database = dbHelper.getWritableDatabase();
-        return database.delete(StockContract.StockEntry.TABLE_NAME, null, null);
+        return dbHelper.deleteAllItems();
     }
 
-    private int deleteOneItemFromTable(long itemId) {
-        SQLiteDatabase database = dbHelper.getWritableDatabase();
-        String selection = StockContract.StockEntry._ID + "=?";
-        String[] selectionArgs = { String.valueOf(itemId) };
-        int rowsDeleted = database.delete(
-                StockContract.StockEntry.TABLE_NAME, selection, selectionArgs);
-        return rowsDeleted;
+    private int deleteOneItemFromTable(String itemId) {
+        return dbHelper.deleteItem(itemId);
     }
 
-    private void showDeleteConfirmationDialog(final long itemId) {
+    private void showDeleteConfirmationDialog(final String itemId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.delete_message);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                if (itemId == 0) {
+                if (itemId == null) {
                     deleteAllRowsFromTable();
                 } else {
                     deleteOneItemFromTable(itemId);
