@@ -1,4 +1,4 @@
-package com.example.inventory;
+package com.example.inventory.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,8 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.inventory.data.FireBaseHelper;
-import com.example.inventory.data.Session;
+import com.example.inventory.R;
+import com.example.inventory.utils.FireBaseHelper;
+import com.example.inventory.utils.Session;
 import com.example.inventory.dataObject.itemObject;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

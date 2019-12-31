@@ -1,4 +1,4 @@
-package com.example.inventory;
+package com.example.inventory.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.inventory.data.FireBaseHelper;
-import com.example.inventory.data.Session;
+import com.example.inventory.R;
+import com.example.inventory.utils.FireBaseHelper;
+import com.example.inventory.utils.Session;
 import com.example.inventory.dataObject.userObject;
 
 public class LoginActivity extends AppCompatActivity {

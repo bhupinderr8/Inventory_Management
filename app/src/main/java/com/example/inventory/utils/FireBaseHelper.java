@@ -1,7 +1,8 @@
-package com.example.inventory.data;
+package com.example.inventory.utils;
 
 import android.database.Cursor;
 
+import com.example.inventory.dataObject.buyerObject;
 import com.example.inventory.dataObject.itemObject;
 import com.example.inventory.dataObject.userObject;
 import com.google.firebase.database.DatabaseReference;
@@ -48,5 +49,9 @@ public class FireBaseHelper {
 
     public Query getItemRef() {
         return mDatabase.child("itemObject");
+    }
+
+    public void insertBuyer(buyerObject obj) {
+
     }
 }

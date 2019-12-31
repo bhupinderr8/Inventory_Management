@@ -4,16 +4,22 @@ public class buyerObject {
     private String name;
     private String phoneNumber;
     private String buyerDescription;
-    private String adress;
     private String buyerId;
-    private String accountNumber;
+    private String buyerEmail;
 
-    public buyerObject(String name, String phoneNumber, String buyerDescription, String adress, String accountNumber) {
+    public buyerObject(String name, String phoneNumber, String buyerDescription, String buyerEmail) {
         this.name = name;
+        this.buyerEmail = buyerEmail;
         this.phoneNumber = phoneNumber;
         this.buyerDescription = buyerDescription;
-        this.adress = adress;
-        this.accountNumber = accountNumber;
+    }
+
+    public String getBuyerEmail() {
+        return buyerEmail;
+    }
+
+    public void setBuyerEmail(String buyerEmail) {
+        this.buyerEmail = buyerEmail;
     }
 
     public String getName() {
@@ -28,15 +34,9 @@ public class buyerObject {
         return buyerDescription;
     }
 
-    public String getAdress() {
-        return adress;
-    }
 
     public String getBuyerId() {
         return buyerId;
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
-    }
 }

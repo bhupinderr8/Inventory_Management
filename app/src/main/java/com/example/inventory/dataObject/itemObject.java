@@ -1,6 +1,6 @@
 package com.example.inventory.dataObject;
 
-public class itemObject {
+public class itemObject{
 
     private String itemName;
     private String itemNumber;

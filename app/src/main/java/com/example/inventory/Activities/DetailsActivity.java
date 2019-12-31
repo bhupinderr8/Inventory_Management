@@ -1,4 +1,4 @@
-package com.example.inventory;
+package com.example.inventory.Activities;
 
 import android.Manifest;
 import android.app.Activity;
@@ -22,7 +22,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NavUtils;
 import androidx.core.content.ContextCompat;
 
-import com.example.inventory.data.FireBaseHelper;
+import com.example.inventory.R;
+import com.example.inventory.utils.FireBaseHelper;
 import com.example.inventory.dataObject.itemObject;
 
 public class DetailsActivity extends AppCompatActivity {

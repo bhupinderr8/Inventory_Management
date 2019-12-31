@@ -1,4 +1,4 @@
-package com.example.inventory;
+package com.example.inventory.Activities;
 
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.inventory.R;
 import com.example.inventory.dataObject.itemObject;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -53,9 +54,9 @@ public class ItemAdapter extends FirebaseRecyclerAdapter<itemObject, ItemAdapter
             super(itemView);
 
             imageView = itemView.findViewById(R.id.image_view);
-            productName = itemView.findViewById(R.id.product_name);
-            price = itemView.findViewById(R.id.price);
-            qty = itemView.findViewById(R.id.quantity);
+            productName = itemView.findViewById(R.id.confirm_activity_product_name);
+            price = itemView.findViewById(R.id.confirm_activity_price);
+            qty = itemView.findViewById(R.id.confirm_activity_qty);
         }
     }
 }

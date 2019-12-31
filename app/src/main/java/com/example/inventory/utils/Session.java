@@ -1,7 +1,13 @@
-package com.example.inventory.data;
+package com.example.inventory.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import com.example.inventory.dataObject.itemObject;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.HashMap;
 
 public class Session {
     SharedPreferences pref;
@@ -32,6 +38,22 @@ public class Session {
         editor.commit();
     }
 
+    public void saveHashMap(String key , Object obj) {
+        SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(obj);
+        editor.putString(key,json);
+        editor.apply();     // This line is IMPORTANT !!!
+    }
+
+
+    public HashMap<String,itemObject> getHashMap(String key) {
+        Gson gson = new Gson();
+        String json = pref.getString(key,"");
+        java.lang.reflect.Type type = new TypeToken<HashMap<Integer,itemObject>>(){}.getType();
+        return gson.fromJson(json, type);
+    }
+
     public String getUserName()
     {
         return pref.getString(KEY_NAME, null);
@@ -46,6 +68,11 @@ public class Session {
 
         // commit changes
         editor.commit();
+    }
+
+    public void addItem(itemObject item)
+    {
+
     }
 
     public boolean isLogin()

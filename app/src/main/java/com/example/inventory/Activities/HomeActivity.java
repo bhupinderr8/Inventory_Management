@@ -1,4 +1,4 @@
-package com.example.inventory;
+package com.example.inventory.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,10 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.inventory.data.Session;
+import com.example.inventory.R;
+import com.example.inventory.utils.Session;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -37,7 +37,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public void onOrderButtonPressed(View view)
     {
-        Intent intent = new Intent(HomeActivity.this, OrderActivity.class);
+        Intent intent = new Intent(HomeActivity.this, SelectActivity.class);
         startActivity(intent);
     }
 
