@@ -15,6 +15,8 @@ import com.example.inventory.utils.Session;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BuyerDetailsActivity extends AppCompatActivity {
     EditText buyerNameEditText, buyerEmailEditText, buyerPhoneNumberEditText, buyerDescriptionEditText;
@@ -53,14 +55,12 @@ public class BuyerDetailsActivity extends AppCompatActivity {
 
                 dbhelper.insertBuyer(obj);
 
-                ArrayList<String> list = getIntent().getStringArrayListExtra("list");
+                final HashMap<String, Integer> list = (HashMap<String, Integer>) getIntent().getSerializableExtra("list");
 
                 assert list != null;
-                for(String s : list)
+                for(Map.Entry<String, Integer> element: list.entrySet())
                 {
-                    itemObject item = session.getHashMap(s).get(s);
-                    assert item != null;
-                    dbhelper.updateItem(s, item.getQty());
+                    dbhelper.updateItem(element.getKey(), element.getValue());
                 }
                 Intent intent=new Intent();
                 setResult(1,intent);

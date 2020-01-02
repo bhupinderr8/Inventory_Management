@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,23 +34,15 @@ public class LoginActivity extends AppCompatActivity {
 
         if(session.isLogin())
         {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             clearText();
             startActivity(intent);
         }
 
-    }
+        userObject admin = new userObject("admin123", "admin123");
 
-    public boolean validUser(String username, String password)
-    {
-        if(username.equals("admin123") && password.equals("admin123"))
-        {
-            return true;
-        }
+        dbHelper.addUser(admin);
 
-        userObject user = dbHelper.readUser(username);
-
-        return user.getName() != null;
     }
 
     private boolean isValidCredentials()
@@ -70,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         return false;
     }
 
-    public void loginUser(android.view.View view)
+    public void loginUser(View view)
     {
         String username = usernameEditText.getText().toString();
         if(isValidCredentials())
@@ -78,29 +71,36 @@ public class LoginActivity extends AppCompatActivity {
             return;
 
         }
-        else if(!validUser(username, passwordEditText.getText().toString()))
-        {
-            Toast.makeText(getApplicationContext(), "INVALID USERNAME OR PASSWORD", Toast.LENGTH_LONG).show();
-        }
         else
         {
-            Toast.makeText(getApplicationContext(), "WELCOME", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            clearText();
-            startActivity(intent);
-            session.doLogin(username);
-            finish();
+            dbHelper.checkUser(this);
         }
 
     }
 
-    private boolean validUserName()
+    public void doLogin()
     {
-        String username = usernameEditText.getText().toString();
-        if(username.equals("admin123"))
-            return true;
+        Toast.makeText(this, "Welcome", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+        clearText();
+        session.doLogin(getUserName());
+        startActivity(intent);
+    }
 
-        return dbHelper.readUser(username).getName()!=null;
+    public String getUserName() {
+        return usernameEditText.getText().toString();
+    }
+
+    public void setUserName(String usernameEditText) {
+        this.usernameEditText.setText(usernameEditText);
+    }
+
+    public String getPassword() {
+        return passwordEditText.getText().toString();
+    }
+
+    public void setPassword(String passwordEditText) {
+        this.passwordEditText.setText(passwordEditText);
     }
 
     private void clearText()

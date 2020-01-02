@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.inventory.R;
 import com.example.inventory.utils.FireBaseHelper;
@@ -16,6 +18,8 @@ import com.example.inventory.utils.Session;
 import com.example.inventory.dataObject.itemObject;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,19 +43,17 @@ public class MainActivity extends AppCompatActivity {
                 new FirebaseRecyclerOptions.Builder<itemObject>()
                         .setQuery(dbHelper.getItemRef(), itemObject.class)
                         .build();
-
-        adapter = new ItemAdapter(options);
+        adapter = new ItemAdapter(options, this);
         recyclerView.setAdapter(adapter);
-
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+                intent.putExtra("itemId", "");
                 startActivity(intent);
             }
         });
-
 
 
     }
@@ -79,9 +81,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void clickOnSale(String id, int quantity) {
-        dbHelper.sellOneItem(id, quantity);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

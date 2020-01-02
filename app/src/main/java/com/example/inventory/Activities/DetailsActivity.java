@@ -34,9 +34,6 @@ public class DetailsActivity extends AppCompatActivity {
     EditText nameEdit;
     EditText priceEdit;
     EditText quantityEdit;
-    EditText supplierNameEdit;
-    EditText supplierPhoneEdit;
-    EditText supplierEmailEdit;
     String currentItemId;
     Button decreaseQuantity;
     Button increaseQuantity;
@@ -61,12 +58,11 @@ public class DetailsActivity extends AppCompatActivity {
         decreaseQuantity = (Button) findViewById(R.id.qtyDecrementButton);
         increaseQuantity = (Button) findViewById(R.id.qtyIncrementButton);
         imageBtn = (Button) findViewById(R.id.selectImageButton);
-        imageView = (ImageView) findViewById(R.id.image_view);
+        imageView = (ImageView) findViewById(R.id.itemImage);
         itemDescription = findViewById(R.id.itemDescription);
         dbHelper = new FireBaseHelper();
-        currentItemId = getIntent().getExtras().getString("ItemId", null);
-
-        if (currentItemId == null) {
+        currentItemId = getIntent().getExtras().getString("ItemId", "");
+        if (currentItemId.equals("")) {
             setTitle(getString(R.string.editor_activity_title_new_item));
         } else {
             setTitle(getString(R.string.editor_activity_title_edit_item));
@@ -165,7 +161,7 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if (currentItemId == null) {
+        if (currentItemId == "") {
             MenuItem deleteOneItemMenuItem = menu.findItem(R.id.action_delete_item);
             MenuItem deleteAllMenuItem = menu.findItem(R.id.action_delete_all_data);
             MenuItem orderMenuItem = menu.findItem(R.id.action_order);
@@ -203,17 +199,13 @@ public class DetailsActivity extends AppCompatActivity {
                 // Show a dialog that notifies the user they have unsaved changes
                 showUnsavedChangesDialog(discardButtonClickListener);
                 return true;
-            case R.id.action_order:
-                // dialog with phone and email
-                showOrderConfirmationDialog();
-                return true;
             case R.id.action_delete_item:
                 // delete one item
                 showDeleteConfirmationDialog(currentItemId);
                 return true;
             case R.id.action_delete_all_data:
                 //delete all data
-                showDeleteConfirmationDialog(null);
+                showDeleteConfirmationDialog("");
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -230,16 +222,7 @@ public class DetailsActivity extends AppCompatActivity {
         if (!checkIfValueSet(quantityEdit, "quantity")) {
             isAllOk = false;
         }
-        if (!checkIfValueSet(supplierNameEdit, "supplier name")) {
-            isAllOk = false;
-        }
-        if (!checkIfValueSet(supplierPhoneEdit, "supplier phone")) {
-            isAllOk = false;
-        }
-        if (!checkIfValueSet(supplierEmailEdit, "supplier email")) {
-            isAllOk = false;
-        }
-        if (actualUri == null && currentItemId == null) {
+        if (actualUri == null && currentItemId.equals("")) {
             isAllOk = false;
             imageBtn.setError("Missing image");
         }
@@ -247,7 +230,7 @@ public class DetailsActivity extends AppCompatActivity {
             return false;
         }
 
-        if (currentItemId == null) {
+        if (currentItemId == "") {
             itemObject itemObj = new itemObject(
                     nameEdit.getText().toString().trim(),
                     imageView.toString(),
@@ -274,8 +257,11 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void addValuesToEditItem(String itemId) {
-        itemObject item = dbHelper.getItem(itemId);
+        dbHelper.updateValues(this, itemId);
+    }
 
+    public void updateValues(itemObject item)
+    {
         nameEdit.setText(item.getItemName());
         priceEdit.setText(item.getPrice());
         quantityEdit.setText(item.getQty());
@@ -283,35 +269,6 @@ public class DetailsActivity extends AppCompatActivity {
         nameEdit.setEnabled(false);
         priceEdit.setEnabled(false);
         imageBtn.setEnabled(false);
-    }
-
-    private void showOrderConfirmationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.order_message);
-        builder.setPositiveButton(R.string.phone, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // intent to phone
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + supplierPhoneEdit.getText().toString().trim()));
-                startActivity(intent);
-            }
-        });
-        builder.setNegativeButton(R.string.email, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // intent to email
-                Intent intent = new Intent(android.content.Intent.ACTION_SENDTO);
-                intent.setType("text/plain");
-                intent.setData(Uri.parse("mailto:" + supplierEmailEdit.getText().toString().trim()));
-                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Recurrent new order");
-                String bodyMessage = "Please send us as soon as possible more " +
-                        nameEdit.getText().toString().trim() +
-                        "!!!";
-                intent.putExtra(android.content.Intent.EXTRA_TEXT, bodyMessage);
-                startActivity(intent);
-            }
-        });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
     }
 
     private int deleteAllRowsFromTable() {
@@ -327,7 +284,7 @@ public class DetailsActivity extends AppCompatActivity {
         builder.setMessage(R.string.delete_message);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                if (itemId == null) {
+                if (itemId == "") {
                     deleteAllRowsFromTable();
                 } else {
                     deleteOneItemFromTable(itemId);

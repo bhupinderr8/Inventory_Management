@@ -7,11 +7,18 @@ public class buyerObject {
     private String buyerId;
     private String buyerEmail;
 
+    public buyerObject() {
+    }
+
     public buyerObject(String name, String phoneNumber, String buyerDescription, String buyerEmail) {
         this.name = name;
         this.buyerEmail = buyerEmail;
         this.phoneNumber = phoneNumber;
         this.buyerDescription = buyerDescription;
+    }
+
+    public void setBuyerId(String buyerId) {
+        this.buyerId = buyerId;
     }
 
     public String getBuyerEmail() {

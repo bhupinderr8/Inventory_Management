@@ -47,10 +47,10 @@ public class Session {
     }
 
 
-    public HashMap<String,itemObject> getHashMap(String key) {
+    public itemObject getHashMap(String key) {
         Gson gson = new Gson();
         String json = pref.getString(key,"");
-        java.lang.reflect.Type type = new TypeToken<HashMap<Integer,itemObject>>(){}.getType();
+        java.lang.reflect.Type type = new TypeToken<itemObject>(){}.getType();
         return gson.fromJson(json, type);
     }
 

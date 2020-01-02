@@ -21,6 +21,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
         newItemButton = findViewById(R.id.add_new_item_button);
         orderButton = findViewById(R.id.order_button);
         viewItemsButton = findViewById(R.id.view_items_button);
@@ -32,6 +33,7 @@ public class HomeActivity extends AppCompatActivity {
     public void onItemButtonPressed(View view)
     {
         Intent intent = new Intent(HomeActivity.this, DetailsActivity.class);
+        intent.putExtra("itemId", "");
         startActivity(intent);
     }
 

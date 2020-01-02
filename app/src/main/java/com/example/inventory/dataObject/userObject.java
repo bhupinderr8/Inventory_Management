@@ -6,6 +6,14 @@ public class userObject {
     private String name;
     private String employeeNumber;
     private String Address;
+    private String password;
+    private Integer Salary;
+    private String accountNumber;
+    private Date birthDate;
+    private String phoneNumber;
+
+    public userObject() {
+    }
 
     public String getName() {
         return name;
@@ -35,6 +43,14 @@ public class userObject {
         return phoneNumber;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public userObject(String name, String address, Integer salary, String accountNumber, Date birthDate, String phoneNumber) {
         this.name = name;
         Address = address;
@@ -44,8 +60,9 @@ public class userObject {
         this.phoneNumber = phoneNumber;
     }
 
-    private Integer Salary;
-    private String accountNumber;
-    private Date birthDate;
-    private String phoneNumber;
+    public userObject(String name, String password)
+    {
+        this.name = name;
+        this.password = password;
+    }
 }

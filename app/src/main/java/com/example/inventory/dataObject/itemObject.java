@@ -20,6 +20,10 @@ public class itemObject{
         this.price = price;
     }
 
+    public void setItemNumber(String itemNumber) {
+        this.itemNumber = itemNumber;
+    }
+
     public String getItemNumber() {
         return itemNumber;
     }
@@ -58,5 +62,9 @@ public class itemObject{
 
     public int getPrice() {
         return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

@@ -1,5 +1,7 @@
 package com.example.inventory.Activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,16 +25,21 @@ public class ItemAdapter extends FirebaseRecyclerAdapter<itemObject, ItemAdapter
      *
      * @param options
      */
-    public ItemAdapter(@NonNull FirebaseRecyclerOptions<itemObject> options) {
+    Context mContext;
+
+    public ItemAdapter(@NonNull FirebaseRecyclerOptions<itemObject> options, Context mContext) {
         super(options);
+        mContext=mContext;
     }
 
     @Override
     protected void onBindViewHolder(@NonNull ItemViewHolder holder, int position, @NonNull itemObject model) {
         holder.productName.setText(model.getItemName());
-        holder.imageView.setImageURI(Uri.parse(model.getImage()));;
-        holder.price.setText(model.getPrice());
-        holder.qty.setText(model.getQty());
+        holder.imageView.setImageURI(Uri.parse(model.getImage()));
+        String priceString = "Price " + String.valueOf(model.getPrice());
+        holder.price.setText(priceString);
+        String qtyString = "Qty " + String.valueOf(model.getQty());
+        holder.qty.setText(qtyString);
 
     }
 
@@ -53,10 +60,10 @@ public class ItemAdapter extends FirebaseRecyclerAdapter<itemObject, ItemAdapter
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imageView = itemView.findViewById(R.id.image_view);
-            productName = itemView.findViewById(R.id.confirm_activity_product_name);
-            price = itemView.findViewById(R.id.confirm_activity_price);
-            qty = itemView.findViewById(R.id.confirm_activity_qty);
+            imageView = itemView.findViewById(R.id.activity_image_view);
+            productName = itemView.findViewById(R.id.activity_product_name);
+            price = itemView.findViewById(R.id.activity_price);
+            qty = itemView.findViewById(R.id.activity_qty);
         }
     }
 }

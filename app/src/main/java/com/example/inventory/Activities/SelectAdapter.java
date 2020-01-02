@@ -29,17 +29,17 @@ public class SelectAdapter extends  FirebaseRecyclerAdapter<itemObject, SelectAd
      *
      * @param options
      */
-    HashMap<String, itemObject> mList;
-    public SelectAdapter(@NonNull FirebaseRecyclerOptions<itemObject> options, HashMap<String, itemObject> list) {
+    HashMap<String, Integer> mList;
+    public SelectAdapter(@NonNull FirebaseRecyclerOptions<itemObject> options) {
         super(options);
-        mList=list;
+        mList=new HashMap<>();
     }
 
     @Override
     protected void onBindViewHolder(@NonNull final SelectViewHolder holder, int position, @NonNull final itemObject model) {
         holder.productName.setText(model.getItemName());
-        holder.imageView.setImageURI(Uri.parse(model.getImage()));;
-        holder.price.setText(model.getPrice());
+        holder.imageView.setImageURI(Uri.parse(model.getImage()));
+        holder.price.setText(String.valueOf(model.getPrice()));
         holder.qty.setText("0");
 
         holder.incrementButton.setOnClickListener(new View.OnClickListener() {
@@ -52,11 +52,8 @@ public class SelectAdapter extends  FirebaseRecyclerAdapter<itemObject, SelectAd
                 {
                     finalValue = finalValue+1;
                 }
-                holder.qty.setText(finalValue);
-                itemObject obj = new itemObject();
-                obj= model;
-                obj.setQty(finalValue);
-                mList.put(model.getItemNumber(), obj);
+                holder.qty.setText(String.valueOf(finalValue));
+                mList.put(model.getItemNumber(), finalValue);
             }
         });
 
@@ -65,18 +62,17 @@ public class SelectAdapter extends  FirebaseRecyclerAdapter<itemObject, SelectAd
             public void onClick(View v) {
                 String val = holder.qty.getText().toString();
                 int finalValue=Integer.parseInt(val);
-                if(finalValue==1)
+
+                if(finalValue==0)
                 {
+                    return;
+                }
+                finalValue = finalValue - 1;
+                holder.qty.setText(String.valueOf(finalValue));
+                if(finalValue>0)
+                    mList.put(model.getItemNumber(), finalValue);
+                else
                     mList.remove(model.getItemNumber());
-                }
-                if(finalValue != 0)
-                {
-                    finalValue = finalValue-1;
-                }
-                itemObject obj = new itemObject();
-                obj= model;
-                obj.setQty(finalValue);
-                mList.put(model.getItemNumber(), obj);
             }
         });
 
@@ -94,17 +90,21 @@ public class SelectAdapter extends  FirebaseRecyclerAdapter<itemObject, SelectAd
             @Override
             public void afterTextChanged(Editable s) {
                 String val = holder.qty.getText().toString();
-                int finalValue=Integer.parseInt(val);
+                if(val.isEmpty())
+                    val="0";
+                Integer finalValue=Integer.parseInt(val);
                 finalValue=Math.max(finalValue, 0);
                 finalValue=Math.min(finalValue, model.getQty());
 
-                itemObject obj = new itemObject();
-                obj= model;
-                obj.setQty(finalValue);
-                mList.put(model.getItemNumber(), obj);
-
+//                holder.qty.setText(String.valueOf(finalValue));
+                if(finalValue>0)
+                    mList.put(model.getItemNumber(), finalValue);
+                else
+                    mList.remove(model.getItemNumber());
             }
         });
+
+
     }
 
     @NonNull
@@ -113,7 +113,7 @@ public class SelectAdapter extends  FirebaseRecyclerAdapter<itemObject, SelectAd
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.select_list_item, parent, false);
 
-        return new SelectAdapter.SelectViewHolder(view);
+        return new SelectViewHolder(view);
     }
 
     class SelectViewHolder extends RecyclerView.ViewHolder {
@@ -124,10 +124,10 @@ public class SelectAdapter extends  FirebaseRecyclerAdapter<itemObject, SelectAd
         Button incrementButton, decrementButton;
         public SelectViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.image_view);
-            productName = itemView.findViewById(R.id.confirm_activity_product_name);
-            price = itemView.findViewById(R.id.confirm_activity_price);
-            qty = itemView.findViewById(R.id.confirm_activity_qty);
+            imageView = itemView.findViewById(R.id.select_image_view);
+            productName = itemView.findViewById(R.id.select_name);
+            price = itemView.findViewById(R.id.select_price);
+            qty = itemView.findViewById(R.id.select_qty_edit_text);
             incrementButton = itemView.findViewById(R.id.select_increment_button);
             decrementButton= itemView.findViewById(R.id.select_decrement_button);
         }

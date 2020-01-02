@@ -1,6 +1,7 @@
 package com.example.inventory.Activities;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +24,8 @@ public class ConfirmAdapter extends ArrayAdapter<itemObject> {
     Context mContext;
     int mResource;
 
-    public ConfirmAdapter(@NonNull Context context, int resource, int textViewResourceId, @NonNull ArrayList<itemObject> objects) {
-        super(context, resource, textViewResourceId, objects);
+    public ConfirmAdapter(@NonNull Context context, int resource, @NonNull ArrayList<itemObject> objects) {
+        super(context, resource, objects);
         mContext = context;
         mResource = resource;
     }
@@ -32,9 +33,20 @@ public class ConfirmAdapter extends ArrayAdapter<itemObject> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        String name = getItem(position).getItemName();
-        Integer price = getItem(position).getPrice();
-        Integer qty = getItem(position).getQty();
+
+        itemObject item = getItem(position);
+        if(item == null)
+        {
+            item = new itemObject();
+            item.setItemName("Empty");
+            item.setQty(0);
+            item.setPrice(0);
+        }
+
+
+        String name = item.getItemName();
+        Integer price = item.getPrice();
+        Integer qty = item.getQty();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
@@ -45,8 +57,8 @@ public class ConfirmAdapter extends ArrayAdapter<itemObject> {
         TextView itemQty = (TextView) convertView.findViewById(R.id.confirm_activity_qty);
 
         itemName.setText(name);
-        itemPrice.setText(price);
-        itemQty.setText(qty);
+        itemPrice.setText(String.valueOf(price));
+        itemQty.setText(String.valueOf(qty));
 
         return convertView;
     }
