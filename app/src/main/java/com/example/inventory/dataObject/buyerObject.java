@@ -46,4 +46,13 @@ public class buyerObject {
         return buyerId;
     }
 
+    public boolean isSameAs(buyerObject value) {
+
+        if(value.getName().equals(name) && value.getPhoneNumber().equals(phoneNumber) && value.getBuyerEmail().equals(buyerEmail))
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

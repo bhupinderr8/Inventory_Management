@@ -29,6 +29,9 @@ import java.util.Objects;
 
 public class FireBaseHelper {
     private DatabaseReference mDatabase;
+    private static String ITEM_TABLE = "itemObject";
+    private static String USER_TABLE = "userObject";
+    private static String BUYER_TABLE = "buyerObject";
 
     public FireBaseHelper() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -36,26 +39,28 @@ public class FireBaseHelper {
 
     public void insertItem(itemObject item)
     {
-        item.setItemNumber(mDatabase.child("itemObject").push().getKey());
-        mDatabase.child("itemObject").child(item.getItemNumber()).setValue(item);
+        item.setItemNumber(mDatabase.child(ITEM_TABLE).push().getKey());
+        mDatabase.child(ITEM_TABLE).child(item.getItemNumber()).setValue(item);
     }
 
     public void updateItem(String itemId, Integer qty)
     {
-        mDatabase.child("itemObject/"+itemId).child("qty").setValue(qty);
+        mDatabase.child(ITEM_TABLE + "/"+itemId).child("qty").setValue(qty);
     }
 
     public int deleteAllItems() {
+        mDatabase.child(ITEM_TABLE).setValue(null);
         return 0;
     }
 
     public int deleteItem(String itemId) {
+        mDatabase.child(ITEM_TABLE).child(itemId).setValue(null);
         return 0;
     }
 
     public void checkUser(final LoginActivity activity)
     {
-        mDatabase.child("userObject").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child(USER_TABLE).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren())
@@ -85,18 +90,37 @@ public class FireBaseHelper {
     }
 
     public Query getItemRef() {
-        return mDatabase.child("itemObject");
+        return mDatabase.child(ITEM_TABLE);
     }
 
-    public void insertBuyer(buyerObject obj) {
-        obj.setBuyerId(mDatabase.child("buyerObject").push().getKey());
-        mDatabase.child("buyerObject").child(obj.getBuyerId()).setValue(obj);
+    public void insertBuyer(final buyerObject obj) {
 
+        mDatabase.child(BUYER_TABLE).addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot child : dataSnapshot.getChildren())
+                {
+                    if(obj.isSameAs(Objects.requireNonNull(child.getValue(buyerObject.class))))
+                    {
+                       return;
+                    }
+                }
+                String buyerId = mDatabase.child(BUYER_TABLE).push().getKey();
+                mDatabase.child(BUYER_TABLE).child(obj.getBuyerId()).setValue(obj);
+                mDatabase.child(BUYER_TABLE).child(buyerId).child("buyerId").setValue(buyerId);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void addItems(final HashMap<String, Integer> list, final ArrayList<itemObject> objectArrayList, final ConfirmAdapter adapter)
     {
-        mDatabase.child("itemObject").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child(ITEM_TABLE).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren())
@@ -119,13 +143,13 @@ public class FireBaseHelper {
     }
 
     public void addUser(userObject admin) {
-        String tmp = mDatabase.child("userObject").push().getKey();
+        String tmp = mDatabase.child(USER_TABLE).push().getKey();
         assert tmp != null;
-        mDatabase.child("userObject").child(tmp).setValue(admin);
+        mDatabase.child(USER_TABLE).child(tmp).setValue(admin);
     }
 
     public void updateValues(final DetailsActivity detailsActivity, final String itemId) {
-        mDatabase.child("itemObject").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child(ITEM_TABLE).addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -39,22 +39,13 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new FireBaseHelper();
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         FirebaseRecyclerOptions<itemObject> options =
                 new FirebaseRecyclerOptions.Builder<itemObject>()
                         .setQuery(dbHelper.getItemRef(), itemObject.class)
                         .build();
         adapter = new ItemAdapter(options, this);
         recyclerView.setAdapter(adapter);
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-                intent.putExtra("itemId", "");
-                startActivity(intent);
-            }
-        });
-
 
     }
 
@@ -74,13 +65,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
     }
-
-    public void clickOnViewItem(long id) {
-        Intent intent = new Intent(this, DetailsActivity.class);
-        intent.putExtra("itemId", id);
-        startActivity(intent);
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -122,6 +106,12 @@ public class MainActivity extends AppCompatActivity {
                 97
         );
         dbHelper.insertItem(gummibears);
+    }
+
+    public void launchDetails(int pos) {
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra("ItemId", adapter.getItem(pos).getItemNumber());
+        startActivity(intent);
     }
 }
 

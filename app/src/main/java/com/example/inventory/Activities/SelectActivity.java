@@ -63,7 +63,7 @@ public class SelectActivity extends AppCompatActivity {
                 return false;
             }
         });
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.select_floating_action_button);
+        final FloatingActionButton fab = findViewById(R.id.select_floating_action_button);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

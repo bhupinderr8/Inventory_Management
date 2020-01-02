@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,13 +53,13 @@ public class DetailsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        nameEdit = (EditText) findViewById(R.id.nameEdit);
-        priceEdit = (EditText) findViewById(R.id.priceEditText);
-        quantityEdit = (EditText) findViewById(R.id.qtyEditText);
-        decreaseQuantity = (Button) findViewById(R.id.qtyDecrementButton);
-        increaseQuantity = (Button) findViewById(R.id.qtyIncrementButton);
-        imageBtn = (Button) findViewById(R.id.selectImageButton);
-        imageView = (ImageView) findViewById(R.id.itemImage);
+        nameEdit = findViewById(R.id.nameEdit);
+        priceEdit = findViewById(R.id.priceEditText);
+        quantityEdit = findViewById(R.id.qtyEditText);
+        decreaseQuantity = findViewById(R.id.qtyDecrementButton);
+        increaseQuantity = findViewById(R.id.qtyIncrementButton);
+        imageBtn = findViewById(R.id.selectImageButton);
+        imageView = findViewById(R.id.itemImage);
         itemDescription = findViewById(R.id.itemDescription);
         dbHelper = new FireBaseHelper();
         currentItemId = getIntent().getExtras().getString("ItemId", "");
@@ -263,8 +264,8 @@ public class DetailsActivity extends AppCompatActivity {
     public void updateValues(itemObject item)
     {
         nameEdit.setText(item.getItemName());
-        priceEdit.setText(item.getPrice());
-        quantityEdit.setText(item.getQty());
+        priceEdit.setText(String.valueOf(item.getPrice()));
+        quantityEdit.setText(String.valueOf(item.getQty()));
         imageView.setImageURI(Uri.parse(item.getImage()));
         nameEdit.setEnabled(false);
         priceEdit.setEnabled(false);
@@ -329,7 +330,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
                 // If request is cancelled, the result arrays are empty.

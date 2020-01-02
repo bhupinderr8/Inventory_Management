@@ -52,9 +52,9 @@ public class ConfirmAdapter extends ArrayAdapter<itemObject> {
 
         convertView = inflater.inflate(mResource, parent, false);
 
-        TextView itemName = (TextView) convertView.findViewById(R.id.confirm_activity_product_name);
-        TextView itemPrice = (TextView) convertView.findViewById(R.id.confirm_activity_price);
-        TextView itemQty = (TextView) convertView.findViewById(R.id.confirm_activity_qty);
+        TextView itemName = convertView.findViewById(R.id.confirm_activity_product_name);
+        TextView itemPrice = convertView.findViewById(R.id.confirm_activity_price);
+        TextView itemQty = convertView.findViewById(R.id.confirm_activity_qty);
 
         itemName.setText(name);
         itemPrice.setText(String.valueOf(price));

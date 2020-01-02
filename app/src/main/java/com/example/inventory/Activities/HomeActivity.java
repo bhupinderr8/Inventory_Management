@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,6 +30,22 @@ public class HomeActivity extends AppCompatActivity {
         userNameTextView = findViewById(R.id.user_name_text_view);
         session = new Session(this);
         userNameTextView.setText(session.getUserName());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_menu_logout) {
+            session.doLogout();
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void onItemButtonPressed(View view)

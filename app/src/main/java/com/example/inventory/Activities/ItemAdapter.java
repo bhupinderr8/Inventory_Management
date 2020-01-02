@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,23 +26,32 @@ public class ItemAdapter extends FirebaseRecyclerAdapter<itemObject, ItemAdapter
      *
      * @param options
      */
-    Context mContext;
+    MainActivity activity;
 
-    public ItemAdapter(@NonNull FirebaseRecyclerOptions<itemObject> options, Context mContext) {
+    public ItemAdapter(@NonNull FirebaseRecyclerOptions<itemObject> options, MainActivity activity) {
         super(options);
-        mContext=mContext;
+        this.activity = activity;
     }
 
     @Override
     protected void onBindViewHolder(@NonNull ItemViewHolder holder, int position, @NonNull itemObject model) {
         holder.productName.setText(model.getItemName());
         holder.imageView.setImageURI(Uri.parse(model.getImage()));
-        String priceString = "Price " + String.valueOf(model.getPrice());
+        String priceString = "Price " + model.getPrice();
         holder.price.setText(priceString);
-        String qtyString = "Qty " + String.valueOf(model.getQty());
+        String qtyString = "Qty " + model.getQty();
         holder.qty.setText(qtyString);
+        final int pos = position;
+        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.launchDetails(pos);
+            }
+        });
 
     }
+
+
 
     @NonNull
     @Override
@@ -56,6 +66,7 @@ public class ItemAdapter extends FirebaseRecyclerAdapter<itemObject, ItemAdapter
 
         ImageView imageView;
         TextView productName, price, qty;
+        LinearLayout parentLayout;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,6 +75,7 @@ public class ItemAdapter extends FirebaseRecyclerAdapter<itemObject, ItemAdapter
             productName = itemView.findViewById(R.id.activity_product_name);
             price = itemView.findViewById(R.id.activity_price);
             qty = itemView.findViewById(R.id.activity_qty);
+            parentLayout = itemView.findViewById(R.id.list_item_parent);
         }
     }
 }
