@@ -15,6 +15,34 @@ public class userObject {
     public userObject() {
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmployeeNumber(String employeeNumber) {
+        this.employeeNumber = employeeNumber;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
+    }
+
+    public void setSalary(Integer salary) {
+        Salary = salary;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getName() {
         return name;
     }

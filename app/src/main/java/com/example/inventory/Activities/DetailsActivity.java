@@ -162,13 +162,11 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if (currentItemId == "") {
+        if (currentItemId.equals("")) {
             MenuItem deleteOneItemMenuItem = menu.findItem(R.id.action_delete_item);
             MenuItem deleteAllMenuItem = menu.findItem(R.id.action_delete_all_data);
-            MenuItem orderMenuItem = menu.findItem(R.id.action_order);
             deleteOneItemMenuItem.setVisible(false);
             deleteAllMenuItem.setVisible(false);
-            orderMenuItem.setVisible(false);
         }
         return true;
     }
