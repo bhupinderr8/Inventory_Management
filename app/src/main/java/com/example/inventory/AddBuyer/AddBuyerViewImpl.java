@@ -16,12 +16,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BuyerDetailsActivity extends AppCompatActivity {
+public class AddBuyerViewImpl extends AppCompatActivity implements AddBuyerView{
     EditText buyerNameEditText, buyerEmailEditText, buyerPhoneNumberEditText, buyerDescriptionEditText;
     FloatingActionButton fab;
-    FireBaseHelper dbhelper;
-    SessionImpl session;
-
+    AddBuyerPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +31,9 @@ public class BuyerDetailsActivity extends AppCompatActivity {
         buyerDescriptionEditText = findViewById(R.id.buyer_details);
         fab = findViewById(R.id.buyer_confirm_fab);
 
-        dbhelper = new FireBaseHelper();
-        session = new SessionImpl(this);
+        presenter = new AddBuyerPresenterImpl(this, new SessionImpl(this));
+//        dbhelper = new FireBaseHelper();
+//        session = new SessionImpl(this);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,14 +50,14 @@ public class BuyerDetailsActivity extends AppCompatActivity {
                         buyerEmail
                 );
 
-                dbhelper.insertBuyer(obj);
+//                dbhelper.insertBuyer(obj);
 
                 final HashMap<String, Integer> list = (HashMap<String, Integer>) getIntent().getSerializableExtra("list");
 
                 assert list != null;
                 for(Map.Entry<String, Integer> element: list.entrySet())
                 {
-                    dbhelper.updateItem(element.getKey(), element.getValue());
+//                    dbhelper.updateItem(element.getKey(), element.getValue());
                 }
                 Intent intent=new Intent();
                 setResult(1,intent);

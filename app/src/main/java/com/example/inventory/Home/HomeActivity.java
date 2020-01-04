@@ -86,6 +86,6 @@ public class HomeActivity extends AppCompatActivity implements HomeView{
 
     @Override
     public void launchActivity(Class classItem) {
-        startActivity(new Intent(HomeActivity.this, classItem));
+        startActivity(new Intent(HomeActivity.this, classItem).putExtra("itemId", ""));
     }
 }

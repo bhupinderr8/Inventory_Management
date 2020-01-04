@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.inventory.NewItem.DetailsActivity;
@@ -26,6 +27,7 @@ public class ItemsListViewImpl extends AppCompatActivity implements OnClickListe
     ItemAdapter adapter;
     private ItemsListPresenter presenter;
     private ArrayList<itemObject> list;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,21 @@ public class ItemsListViewImpl extends AppCompatActivity implements OnClickListe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem searchItem = menu.findItem(R.id.activity_list_search);
+        searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                presenter.onQueryTextChange(query);
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                presenter.onQueryTextChange(newText);
+                return false;
+            }
+        });
         return true;
     }
 
@@ -71,7 +87,6 @@ public class ItemsListViewImpl extends AppCompatActivity implements OnClickListe
             case R.id.logout:
                 presenter.OnLogoutButton();
                 break;
-
         }
         return super.onOptionsItemSelected(item);
     }
@@ -92,6 +107,11 @@ public class ItemsListViewImpl extends AppCompatActivity implements OnClickListe
     @Override
     public void scrollToEnd() {
         recyclerView.smoothScrollToPosition(list.size()-1);
+    }
+
+    @Override
+    public void clearAllItems() {
+        adapter.data.clear();
     }
 
     @Override

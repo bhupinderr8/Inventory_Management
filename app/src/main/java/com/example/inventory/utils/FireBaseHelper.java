@@ -1,10 +1,12 @@
 package com.example.inventory.utils;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.example.inventory.AddBuyer.AddBuyerRepository;
 import com.example.inventory.ItemsList.ItemsListEvent;
 import com.example.inventory.ItemsList.ItemsListRepository;
 import com.example.inventory.Order.ConfirmAdapter;
@@ -30,14 +32,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class FireBaseHelper implements RegisterRepository, LoginRepository, ItemsListRepository {
+public class FireBaseHelper implements RegisterRepository, LoginRepository, ItemsListRepository, AddBuyerRepository {
+    private final static String LOG_TAG = FireBaseHelper.class.getCanonicalName();
     private DatabaseReference mDatabase;
     private static String ITEM_TABLE = "itemObject";
     private static String USER_TABLE = "userObject";
     private static String BUYER_TABLE = "buyerObject";
+    private static FirebaseDatabase database;
 
     public FireBaseHelper() {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        if(database==null)
+        {
+            database = FirebaseDatabase.getInstance();
+            database.setPersistenceEnabled(true);
+        }
+        mDatabase = database.getReference();
+        mDatabase.keepSynced(true);
     }
 
     public void insertItem(itemObject item)
@@ -123,6 +133,7 @@ public class FireBaseHelper implements RegisterRepository, LoginRepository, Item
 
     public void addItems(final HashMap<String, Integer> list, final ArrayList<itemObject> objectArrayList, final ConfirmAdapter adapter)
     {
+        Query query = mDatabase.child(ITEM_TABLE).limitToFirst(7);
         mDatabase.child(ITEM_TABLE).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -141,7 +152,6 @@ public class FireBaseHelper implements RegisterRepository, LoginRepository, Item
 
             }
         });
-
 
     }
 
@@ -207,6 +217,32 @@ public class FireBaseHelper implements RegisterRepository, LoginRepository, Item
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void queryItemName(String text) {
+        Query query = mDatabase.child(ITEM_TABLE).orderByChild("itemName").equalTo(text);
+        Log.d(LOG_TAG, query.toString());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists())
+                {
+                    Log.d(LOG_TAG, "children");
+                    for(DataSnapshot child : dataSnapshot.getChildren())
+                    {
+                        Log.d(LOG_TAG, "Child Added");
+                        itemObject item = child.getValue(itemObject.class);
+                        EventBus.getDefault().post(new ItemsListEvent(item, ItemsListEvent.onChildAdded));
+                    }
+                }
             }
 
             @Override

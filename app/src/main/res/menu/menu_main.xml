@@ -5,6 +5,12 @@
     tools:context=".ItemsList.ItemsListViewImpl">
 
     <item
+        android:id="@+id/activity_list_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="Search"
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView" />
+    <item
         android:id="@+id/action_add_dummy_data"
         android:title="@string/action_add_dummy_data"
         android:icon="@drawable/ic_cloud_download_black_24dp"

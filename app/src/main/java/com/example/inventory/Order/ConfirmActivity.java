@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.SearchView;
 
-import com.example.inventory.AddBuyer.BuyerDetailsActivity;
+import com.example.inventory.AddBuyer.AddBuyerViewImpl;
 import com.example.inventory.R;
 import com.example.inventory.DataObject.itemObject;
 import com.example.inventory.utils.FireBaseHelper;
@@ -50,7 +50,7 @@ public class ConfirmActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ConfirmActivity.this, BuyerDetailsActivity.class);
+                Intent intent = new Intent(ConfirmActivity.this, AddBuyerViewImpl.class);
                 intent.putExtra("list", list);
                 startActivityForResult(intent, 1);
             }

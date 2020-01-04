@@ -11,4 +11,6 @@ public interface ItemsListView {
     void launchLoginActivity();
     void show(String val);
     void scrollToEnd();
+
+    void clearAllItems();
 }

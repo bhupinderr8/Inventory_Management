@@ -73,6 +73,7 @@ public class LoginViewImpl extends AppCompatActivity implements LoginView{
         show("Welcome");
         Intent intent = new Intent(LoginViewImpl.this, HomeActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

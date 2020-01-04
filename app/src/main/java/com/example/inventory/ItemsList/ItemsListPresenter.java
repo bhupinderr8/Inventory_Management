@@ -6,4 +6,6 @@ public interface ItemsListPresenter {
 
     void onStart();
     void onStop();
+
+    void onQueryTextChange(String text);
 }

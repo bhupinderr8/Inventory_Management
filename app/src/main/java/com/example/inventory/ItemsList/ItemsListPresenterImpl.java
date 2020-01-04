@@ -45,8 +45,7 @@ public class ItemsListPresenterImpl implements ItemsListPresenter {
     }
 
     private void addItem(itemObject item) {
-        view.addItemToAdapter(item);
-        view.OnAdapterChange();
+        repository.insertItem(item);
         view.scrollToEnd();
     }
 
@@ -64,6 +63,19 @@ public class ItemsListPresenterImpl implements ItemsListPresenter {
     @Override
     public void onStop() {
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onQueryTextChange(String text) {
+        if(text.equals(""))
+        {
+            pupulateItems();
+            return;
+        }
+        view.clearAllItems();
+        view.OnAdapterChange();
+        text = text.trim();
+        repository.queryItemName(text);
     }
 
     @Subscribe
