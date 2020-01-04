@@ -1,4 +1,4 @@
-package com.example.inventory.dataObject;
+package com.example.inventory.DataObject;
 
 import com.example.inventory.utils.paymentType;
 

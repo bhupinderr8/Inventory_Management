@@ -1,4 +1,4 @@
-package com.example.inventory.Activities;
+package com.example.inventory.AddBuyer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,13 +8,11 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.inventory.R;
-import com.example.inventory.dataObject.buyerObject;
-import com.example.inventory.dataObject.itemObject;
+import com.example.inventory.DataObject.buyerObject;
 import com.example.inventory.utils.FireBaseHelper;
-import com.example.inventory.utils.Session;
+import com.example.inventory.utils.SessionImpl;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +20,7 @@ public class BuyerDetailsActivity extends AppCompatActivity {
     EditText buyerNameEditText, buyerEmailEditText, buyerPhoneNumberEditText, buyerDescriptionEditText;
     FloatingActionButton fab;
     FireBaseHelper dbhelper;
-    Session session;
+    SessionImpl session;
 
 
     @Override
@@ -36,7 +34,7 @@ public class BuyerDetailsActivity extends AppCompatActivity {
         fab = findViewById(R.id.buyer_confirm_fab);
 
         dbhelper = new FireBaseHelper();
-        session = new Session(this);
+        session = new SessionImpl(this);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

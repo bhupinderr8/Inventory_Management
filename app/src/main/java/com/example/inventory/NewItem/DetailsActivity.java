@@ -1,4 +1,4 @@
-package com.example.inventory.Activities;
+package com.example.inventory.NewItem;
 
 import android.Manifest;
 import android.app.Activity;
@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +24,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.inventory.R;
 import com.example.inventory.utils.FireBaseHelper;
-import com.example.inventory.dataObject.itemObject;
+import com.example.inventory.DataObject.itemObject;
 
 public class DetailsActivity extends AppCompatActivity {
 

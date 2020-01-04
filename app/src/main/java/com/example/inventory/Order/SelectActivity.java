@@ -1,4 +1,4 @@
-package com.example.inventory.Activities;
+package com.example.inventory.Order;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,18 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.inventory.R;
-import com.example.inventory.dataObject.itemObject;
+import com.example.inventory.DataObject.itemObject;
 import com.example.inventory.utils.FireBaseHelper;
-import com.example.inventory.utils.Session;
+import com.example.inventory.utils.SessionImpl;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SelectActivity extends AppCompatActivity {
 
@@ -29,7 +24,7 @@ public class SelectActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     SelectAdapter adapter;
     private FireBaseHelper dbHelper;
-    private Session session;
+    private SessionImpl session;
 
 
     @Override
@@ -48,7 +43,7 @@ public class SelectActivity extends AppCompatActivity {
                         .build();
         adapter = new SelectAdapter(options);
         recyclerView.setAdapter(adapter);
-        session = new Session(this);
+        session = new SessionImpl(this);
 
         
 

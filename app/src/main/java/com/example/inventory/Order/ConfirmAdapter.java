@@ -1,23 +1,19 @@
-package com.example.inventory.Activities;
+package com.example.inventory.Order;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.inventory.R;
-import com.example.inventory.dataObject.itemObject;
+import com.example.inventory.DataObject.itemObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ConfirmAdapter extends ArrayAdapter<itemObject> {
 

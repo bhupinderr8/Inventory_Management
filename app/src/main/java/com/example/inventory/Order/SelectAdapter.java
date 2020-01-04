@@ -1,4 +1,4 @@
-package com.example.inventory.Activities;
+package com.example.inventory.Order;
 
 import android.net.Uri;
 import android.text.Editable;
@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.inventory.R;
-import com.example.inventory.dataObject.itemObject;
+import com.example.inventory.DataObject.itemObject;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 

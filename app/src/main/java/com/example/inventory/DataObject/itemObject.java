@@ -1,4 +1,4 @@
-package com.example.inventory.dataObject;
+package com.example.inventory.DataObject;
 
 public class itemObject{
 
@@ -52,7 +52,7 @@ public class itemObject{
         this.description = description;
     }
 
-    public Integer getQty() {
+    public int getQty() {
         return qty;
     }
 

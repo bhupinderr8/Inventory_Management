@@ -1,20 +1,22 @@
 package com.example.inventory.utils;
-
-import android.database.Cursor;
 import android.os.Build;
-import android.provider.ContactsContract;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.example.inventory.Activities.ConfirmAdapter;
-import com.example.inventory.Activities.DetailsActivity;
-import com.example.inventory.Activities.LoginActivity;
-import com.example.inventory.dataObject.buyerObject;
-import com.example.inventory.dataObject.itemObject;
-import com.example.inventory.dataObject.userObject;
+import com.example.inventory.ItemsList.ItemsListEvent;
+import com.example.inventory.ItemsList.ItemsListRepository;
+import com.example.inventory.Order.ConfirmAdapter;
+import com.example.inventory.NewItem.DetailsActivity;
+import com.example.inventory.Login.LoginEvent;
+import com.example.inventory.Login.LoginRepository;
+import com.example.inventory.Register.RegisterEvent;
+import com.example.inventory.Register.RegisterRepository;
+import com.example.inventory.DataObject.buyerObject;
+import com.example.inventory.DataObject.itemObject;
+import com.example.inventory.DataObject.userObject;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,12 +24,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
-public class FireBaseHelper {
+public class FireBaseHelper implements RegisterRepository, LoginRepository, ItemsListRepository {
     private DatabaseReference mDatabase;
     private static String ITEM_TABLE = "itemObject";
     private static String USER_TABLE = "userObject";
@@ -58,7 +61,7 @@ public class FireBaseHelper {
         return 0;
     }
 
-    public void checkUser(final LoginActivity activity)
+    private void checkUser(final String username, final String password)
     {
         mDatabase.child(USER_TABLE).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -66,25 +69,25 @@ public class FireBaseHelper {
                 for(DataSnapshot child : dataSnapshot.getChildren())
                 {
                     userObject obj = child.getValue(userObject.class);
-                    if(obj.getName().equals(activity.getUserName()))
+                    if(obj.getName().equals(username))
                     {
-                        if(!obj.getPassword().equals(activity.getPassword()))
+                        if(obj.getPassword().equals(password))
                         {
-                            Toast.makeText(activity.getApplicationContext(), "PassWord Incorrect", Toast.LENGTH_SHORT).show();
+                            EventBus.getDefault().post(new LoginEvent(LoginEvent.onSignInSuccess, null, username));
                         }
                         else
                         {
-                            activity.doLogin();
+                            EventBus.getDefault().post(new LoginEvent(LoginEvent.onSignInError, "Wrong Password", null));
                             return;
                         }
                     }
                 }
-                Toast.makeText(activity.getApplicationContext(), "Cannot Find User", Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().post(new LoginEvent(LoginEvent.onSignInSuccess, "Cannot Find User", null));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                EventBus.getDefault().post(new LoginEvent(LoginEvent.onSignInSuccess, databaseError.toString(), null));
             }
         });
     }
@@ -145,7 +148,12 @@ public class FireBaseHelper {
     public void addUser(userObject admin) {
         String tmp = mDatabase.child(USER_TABLE).push().getKey();
         assert tmp != null;
-        mDatabase.child(USER_TABLE).child(tmp).setValue(admin);
+        mDatabase.child(USER_TABLE).child(tmp).setValue(admin, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                EventBus.getDefault().post(new RegisterEvent(RegisterEvent.onSignUpSuccess));
+            }
+        });
     }
 
     public void updateValues(final DetailsActivity detailsActivity, final String itemId) {
@@ -161,6 +169,44 @@ public class FireBaseHelper {
                         return;
                     }
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void initSignIn(String username, String password) {
+        checkUser(username, password);
+    }
+
+    @Override
+    public void retrieveItems() {
+        mDatabase.child(ITEM_TABLE).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                itemObject item = dataSnapshot.getValue(itemObject.class);
+                EventBus.getDefault().post(new ItemsListEvent(item, ItemsListEvent.onChildAdded));
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                itemObject item = dataSnapshot.getValue(itemObject.class);
+                EventBus.getDefault().post(new ItemsListEvent(item, ItemsListEvent.onChildUpdated));
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                itemObject item = dataSnapshot.getValue(itemObject.class);
+                EventBus.getDefault().post(new ItemsListEvent(item, ItemsListEvent.onChildRemoved));
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
             }
 
             @Override

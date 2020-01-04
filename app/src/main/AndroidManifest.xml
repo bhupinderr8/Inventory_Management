@@ -12,14 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.RegisterActivity"></activity>
-        <activity android:name=".Activities.BuyerDetailsActivity" />
-        <activity android:name=".Activities.ConfirmActivity" />
-        <activity android:name=".Activities.SelectActivity" />
-        <activity android:name=".Activities.HomeActivity" />
-        <activity android:name=".Activities.AdminActivity" /> <!-- suppress AndroidDomInspection -->
+        <activity android:name=".Register.RegisterViewImpl"></activity>
+        <activity android:name=".AddBuyer.BuyerDetailsActivity" />
+        <activity android:name=".Order.ConfirmActivity" />
+        <activity android:name=".Order.SelectActivity" />
+        <activity android:name=".Home.HomeActivity" />
+        <!-- suppress AndroidDomInspection -->
         <activity
-            android:name=".Activities.LoginActivity"
+            android:name=".Login.LoginViewImpl"
             android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,15 +27,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.MainActivity" />
-        <activity android:name=".Activities.DetailsActivity">
+        <activity android:name=".ItemsList.ItemsListViewImpl" />
+        <activity android:name=".NewItem.DetailsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.inventory.Activities.MainActivity" />
+                android:value="com.example.inventory.ItemsList.ItemsListViewImpl" />
         </activity>
     </application>
 
