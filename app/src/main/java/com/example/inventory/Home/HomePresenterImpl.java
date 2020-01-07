@@ -1,8 +1,8 @@
 package com.example.inventory.Home;
 
 import com.example.inventory.ItemsList.ItemsListViewImpl;
-import com.example.inventory.NewItem.DetailsActivity;
-import com.example.inventory.Register.RegisterViewImpl;
+import com.example.inventory.NewItem.DetailsViewImpl;
+import com.example.inventory.Order.SelectViewImpl;
 import com.example.inventory.utils.Session;
 
 public class HomePresenterImpl implements HomePresenter{
@@ -25,7 +25,7 @@ public class HomePresenterImpl implements HomePresenter{
     @Override
     public void itemButtonPressed() {
         view.show("Add Item");
-        view.launchActivity(DetailsActivity.class);
+        view.launchActivity(DetailsViewImpl.class);
     }
 
     @Override
@@ -35,6 +35,6 @@ public class HomePresenterImpl implements HomePresenter{
 
     @Override
     public void orderButtonPressed() {
-        view.launchActivity(RegisterViewImpl.class);
+        view.launchActivity(SelectViewImpl.class);
     }
 }

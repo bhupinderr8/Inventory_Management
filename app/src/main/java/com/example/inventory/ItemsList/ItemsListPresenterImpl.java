@@ -49,6 +49,16 @@ public class ItemsListPresenterImpl implements ItemsListPresenter {
         view.scrollToEnd();
     }
 
+    private void addItemToAdapter(itemObject item)
+    {
+        if(!view.itemInAdapter(item.getItemNumber()))
+        {
+            view.addItemToAdapter(item);
+            view.OnAdapterChange();
+            view.scrollToEnd();
+        }
+    }
+
     @Override
     public void OnLogoutButton() {
         session.doLogout();
@@ -69,6 +79,7 @@ public class ItemsListPresenterImpl implements ItemsListPresenter {
     public void onQueryTextChange(String text) {
         if(text.equals(""))
         {
+            view.clearAllItems();
             pupulateItems();
             return;
         }
@@ -84,8 +95,8 @@ public class ItemsListPresenterImpl implements ItemsListPresenter {
 
         if(event.getEventType() == ItemsListEvent.onChildAdded)
         {
-            view.addItemToAdapter(event.getItem());
-            view.OnAdapterChange();
+            addItemToAdapter(event.getItem());
+
         }
         else if(event.getEventType() == ItemsListEvent.onChildRemoved)
         {
@@ -95,8 +106,7 @@ public class ItemsListPresenterImpl implements ItemsListPresenter {
         else if(event.getEventType() == ItemsListEvent.onChildUpdated)
         {
             view.removeValueFromAdapter(event.getItem().getItemNumber());
-            view.addItemToAdapter(event.getItem());
-            view.OnAdapterChange();
+            addItemToAdapter(event.getItem());
         }
         else
         {

@@ -12,11 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.inventory.Login.LoginViewImpl;
-import com.example.inventory.NewItem.DetailsActivity;
-import com.example.inventory.Order.SelectActivity;
-import com.example.inventory.ItemsList.ItemsListViewImpl;
 import com.example.inventory.R;
-import com.example.inventory.utils.Session;
 import com.example.inventory.utils.SessionImpl;
 
 public class HomeActivity extends AppCompatActivity implements HomeView{

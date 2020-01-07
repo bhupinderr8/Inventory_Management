@@ -17,7 +17,7 @@ import com.example.inventory.utils.SessionImpl;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class SelectActivity extends AppCompatActivity {
+public class SelectViewImpl extends AppCompatActivity implements SelectView {
 
     SearchView searchView;
     FloatingActionButton fab;
@@ -63,7 +63,7 @@ public class SelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(SelectActivity.this, ConfirmActivity.class);
+                Intent intent = new Intent(SelectViewImpl.this, ConfirmViewImpl.class);
                 intent.putExtra("list", adapter.mList);
                 startActivityForResult(intent, 0);
             }

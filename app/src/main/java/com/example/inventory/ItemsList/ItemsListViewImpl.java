@@ -11,10 +11,9 @@ import android.view.MenuItem;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.example.inventory.NewItem.DetailsActivity;
+import com.example.inventory.NewItem.DetailsViewImpl;
 import com.example.inventory.Login.LoginViewImpl;
 import com.example.inventory.R;
-import com.example.inventory.utils.FireBaseHelper;
 import com.example.inventory.utils.SessionImpl;
 import com.example.inventory.DataObject.itemObject;
 
@@ -115,15 +114,29 @@ public class ItemsListViewImpl extends AppCompatActivity implements OnClickListe
     }
 
     @Override
+    public boolean itemInAdapter(String itemId) {
+        int i=0;
+        while(i<list.size())
+        {
+            if(list.get(i).getItemNumber().equals(itemId))
+            {
+                return true;
+            }
+            i++;
+        }
+        return false;
+    }
+
+    @Override
     public void onItemClick(itemObject item) {
-        Intent intent = new Intent(this, DetailsActivity.class);
+        Intent intent = new Intent(this, DetailsViewImpl.class);
         intent.putExtra("ItemId", item.getItemNumber());
         startActivity(intent);
     }
 
     @Override
     public void onLongItemClick(itemObject item) {
-        Intent intent = new Intent(this, DetailsActivity.class);
+        Intent intent = new Intent(this, DetailsViewImpl.class);
         intent.putExtra("ItemId", item.getItemNumber());
         startActivity(intent);
     }

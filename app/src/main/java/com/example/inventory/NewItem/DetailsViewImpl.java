@@ -26,9 +26,9 @@ import com.example.inventory.R;
 import com.example.inventory.utils.FireBaseHelper;
 import com.example.inventory.DataObject.itemObject;
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
 
-    private static final String LOG_TAG = DetailsActivity.class.getCanonicalName();
+    private static final String LOG_TAG = DetailsViewImpl.class.getCanonicalName();
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private FireBaseHelper dbHelper;
     EditText nameEdit;
@@ -59,7 +59,7 @@ public class DetailsActivity extends AppCompatActivity {
         increaseQuantity = findViewById(R.id.qtyIncrementButton);
         imageBtn = findViewById(R.id.selectImageButton);
         imageView = findViewById(R.id.itemImage);
-        itemDescription = findViewById(R.id.itemDescription);
+        itemDescription = findViewById(R.id.description);
         dbHelper = new FireBaseHelper();
         currentItemId = getIntent().getExtras().getString("ItemId", "");
         if (currentItemId.equals("")) {
@@ -191,7 +191,7 @@ public class DetailsActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 // UserItem clicked "Discard" button, navigate to parent activity.
-                                NavUtils.navigateUpFromSameTask(DetailsActivity.this);
+                                NavUtils.navigateUpFromSameTask(DetailsViewImpl.this);
                             }
                         };
                 // Show a dialog that notifies the user they have unsaved changes

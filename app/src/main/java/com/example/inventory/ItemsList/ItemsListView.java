@@ -13,4 +13,6 @@ public interface ItemsListView {
     void scrollToEnd();
 
     void clearAllItems();
+
+    boolean itemInAdapter(String itemNumber);
 }

@@ -9,10 +9,13 @@ import androidx.annotation.RequiresApi;
 import com.example.inventory.AddBuyer.AddBuyerRepository;
 import com.example.inventory.ItemsList.ItemsListEvent;
 import com.example.inventory.ItemsList.ItemsListRepository;
+import com.example.inventory.NewItem.DetailsRepository;
 import com.example.inventory.Order.ConfirmAdapter;
-import com.example.inventory.NewItem.DetailsActivity;
+import com.example.inventory.NewItem.DetailsViewImpl;
 import com.example.inventory.Login.LoginEvent;
 import com.example.inventory.Login.LoginRepository;
+import com.example.inventory.Order.ConfirmRepository;
+import com.example.inventory.Order.SelectRepository;
 import com.example.inventory.Register.RegisterEvent;
 import com.example.inventory.Register.RegisterRepository;
 import com.example.inventory.DataObject.buyerObject;
@@ -32,7 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class FireBaseHelper implements RegisterRepository, LoginRepository, ItemsListRepository, AddBuyerRepository {
+public class FireBaseHelper implements RegisterRepository, LoginRepository, ItemsListRepository, AddBuyerRepository, DetailsRepository, SelectRepository, ConfirmRepository {
     private final static String LOG_TAG = FireBaseHelper.class.getCanonicalName();
     private DatabaseReference mDatabase;
     private static String ITEM_TABLE = "itemObject";
@@ -166,7 +169,7 @@ public class FireBaseHelper implements RegisterRepository, LoginRepository, Item
         });
     }
 
-    public void updateValues(final DetailsActivity detailsActivity, final String itemId) {
+    public void updateValues(final DetailsViewImpl detailsViewImpl, final String itemId) {
         mDatabase.child(ITEM_TABLE).addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
@@ -175,7 +178,7 @@ public class FireBaseHelper implements RegisterRepository, LoginRepository, Item
                 {
                     if(child.getKey().equals(itemId))
                     {
-                        detailsActivity.updateValues(Objects.requireNonNull(child.getValue(itemObject.class)));
+                        detailsViewImpl.updateValues(Objects.requireNonNull(child.getValue(itemObject.class)));
                         return;
                     }
                 }
@@ -227,8 +230,8 @@ public class FireBaseHelper implements RegisterRepository, LoginRepository, Item
     }
 
     @Override
-    public void queryItemName(String text) {
-        Query query = mDatabase.child(ITEM_TABLE).orderByChild("itemName").equalTo(text);
+    public void queryItemName(final String text) {
+        Query query = mDatabase.child(ITEM_TABLE);
         Log.d(LOG_TAG, query.toString());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -240,7 +243,8 @@ public class FireBaseHelper implements RegisterRepository, LoginRepository, Item
                     {
                         Log.d(LOG_TAG, "Child Added");
                         itemObject item = child.getValue(itemObject.class);
-                        EventBus.getDefault().post(new ItemsListEvent(item, ItemsListEvent.onChildAdded));
+                        if(item.getItemName().toLowerCase().contains(text.toLowerCase()))
+                            EventBus.getDefault().post(new ItemsListEvent(item, ItemsListEvent.onChildAdded));
                     }
                 }
             }

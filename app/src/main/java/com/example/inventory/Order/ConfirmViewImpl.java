@@ -19,7 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ConfirmActivity extends AppCompatActivity {
+public class ConfirmViewImpl extends AppCompatActivity implements ConfirmView {
     private static final String TAG = "Check";
     ListView listview;
     FloatingActionButton fab;
@@ -50,7 +50,7 @@ public class ConfirmActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ConfirmActivity.this, AddBuyerViewImpl.class);
+                Intent intent = new Intent(ConfirmViewImpl.this, AddBuyerViewImpl.class);
                 intent.putExtra("list", list);
                 startActivityForResult(intent, 1);
             }

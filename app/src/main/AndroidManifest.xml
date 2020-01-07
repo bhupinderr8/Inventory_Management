@@ -15,8 +15,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Register.RegisterViewImpl"></activity>
         <activity android:name=".AddBuyer.AddBuyerViewImpl" />
-        <activity android:name=".Order.ConfirmActivity" />
-        <activity android:name=".Order.SelectActivity" />
+        <activity android:name=".Order.ConfirmViewImpl" />
+        <activity android:name=".Order.SelectViewImpl" />
         <activity android:name=".Home.HomeActivity" />
         <!-- suppress AndroidDomInspection -->
         <activity
@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ItemsList.ItemsListViewImpl" />
-        <activity android:name=".NewItem.DetailsActivity">
+        <activity android:name=".NewItem.DetailsViewImpl">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
