@@ -30,7 +30,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
 
     private static final String LOG_TAG = DetailsViewImpl.class.getCanonicalName();
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-    private FireBaseHelper dbHelper;
+//    private FireBaseHelper dbHelper;
     EditText nameEdit;
     EditText priceEdit;
     EditText quantityEdit;
@@ -43,6 +43,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
     Uri actualUri;
     private static final int PICK_IMAGE_REQUEST = 0;
     Boolean infoItemHasChanged = false;
+    DetailsPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,28 +61,21 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
         imageBtn = findViewById(R.id.selectImageButton);
         imageView = findViewById(R.id.itemImage);
         itemDescription = findViewById(R.id.description);
-        dbHelper = new FireBaseHelper();
+//        dbHelper = new FireBaseHelper();
         currentItemId = getIntent().getExtras().getString("ItemId", "");
-        if (currentItemId.equals("")) {
-            setTitle(getString(R.string.editor_activity_title_new_item));
-        } else {
-            setTitle(getString(R.string.editor_activity_title_edit_item));
-            addValuesToEditItem(currentItemId);
-        }
+        presenter = new DetailsPresenterImpl(this);
 
         decreaseQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                subtractOneToQuantity();
-                infoItemHasChanged = true;
+                presenter.onSubtractOneToQuantity();
             }
         });
 
         increaseQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sumOneToQuantity();
-                infoItemHasChanged = true;
+                presenter.onSumOneToQuantity();
             }
         });
 
@@ -89,6 +83,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
             @Override
             public void onClick(View v) {
                 tryToOpenImageSelector();
+                presenter.onImageSelectButton();
                 infoItemHasChanged = true;
             }
         });
@@ -128,30 +123,6 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
         alertDialog.show();
     }
 
-    private void subtractOneToQuantity() {
-        String previousValueString = quantityEdit.getText().toString();
-        int previousValue;
-        if (previousValueString.isEmpty()) {
-            return;
-        } else if (previousValueString.equals("0")) {
-            return;
-        } else {
-            previousValue = Integer.parseInt(previousValueString);
-            quantityEdit.setText(String.valueOf(previousValue - 1));
-        }
-    }
-
-    private void sumOneToQuantity() {
-        String previousValueString = quantityEdit.getText().toString();
-        int previousValue;
-        if (previousValueString.isEmpty()) {
-            previousValue = 0;
-        } else {
-            previousValue = Integer.parseInt(previousValueString);
-        }
-        quantityEdit.setText(String.valueOf(previousValue + 1));
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_details, menu);
@@ -174,12 +145,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
-                // save item in DB
-                if (!addItemToDb()) {
-                    // saying to onOptionsItemSelected that user clicked button
-                    return true;
-                }
-                finish();
+                presenter.onActionSave();
                 return true;
             case android.R.id.home:
                 if (!infoItemHasChanged) {
@@ -209,40 +175,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean addItemToDb() {
-        boolean isAllOk = true;
-        if (!checkIfValueSet(nameEdit, "name")) {
-            isAllOk = false;
-        }
-        if (!checkIfValueSet(priceEdit, "price")) {
-            isAllOk = false;
-        }
-        if (!checkIfValueSet(quantityEdit, "quantity")) {
-            isAllOk = false;
-        }
-        if (actualUri == null && currentItemId.equals("")) {
-            isAllOk = false;
-            imageBtn.setError("Missing image");
-        }
-        if (!isAllOk) {
-            return false;
-        }
 
-        if (currentItemId == "") {
-            itemObject itemObj = new itemObject(
-                    nameEdit.getText().toString().trim(),
-                    imageView.toString(),
-                    itemDescription.getText().toString(),
-                    Integer.parseInt(quantityEdit.getText().toString().trim()),
-                    Integer.parseInt(priceEdit.getText().toString().trim())
-            );
-            dbHelper.insertItem(itemObj);
-        } else {
-            int quantity = Integer.parseInt(quantityEdit.getText().toString().trim());
-            dbHelper.updateItem(currentItemId, quantity);
-        }
-        return true;
-    }
 
     private boolean checkIfValueSet(EditText text, String description) {
         if (TextUtils.isEmpty(text.getText())) {
@@ -254,8 +187,34 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
         }
     }
 
-    private void addValuesToEditItem(String itemId) {
-        dbHelper.updateValues(this, itemId);
+    @Override
+    public String getCurrentItemId() {
+        return null;
+    }
+
+    @Override
+    public void setTitle(String str) {
+
+    }
+
+    @Override
+    public boolean getInfoHasChanged() {
+        return infoItemHasChanged;
+    }
+
+    @Override
+    public void setInfoHasChanged(boolean val) {
+        infoItemHasChanged=val;
+    }
+
+    @Override
+    public String getQuantity() {
+        return quantityEdit.getText().toString();
+    }
+
+    @Override
+    public void setQuantity(String value) {
+        quantityEdit.setText(value);
     }
 
     public void updateValues(itemObject item)
@@ -269,23 +228,15 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
         imageBtn.setEnabled(false);
     }
 
-    private int deleteAllRowsFromTable() {
-        return dbHelper.deleteAllItems();
-    }
-
-    private int deleteOneItemFromTable(String itemId) {
-        return dbHelper.deleteItem(itemId);
-    }
-
     private void showDeleteConfirmationDialog(final String itemId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.delete_message);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 if (itemId == "") {
-                    deleteAllRowsFromTable();
+                    presenter.deleteAllRowsFromTable();
                 } else {
-                    deleteOneItemFromTable(itemId);
+                    presenter.deleteOneItemFromTable(itemId);
                 }
                 finish();
             }
@@ -301,6 +252,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
         alertDialog.show();
     }
 
+    @Override
     public void tryToOpenImageSelector() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -310,10 +262,10 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
                     MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
             return;
         }
-        openImageSelector();
     }
 
-    private void openImageSelector() {
+    @Override
+    public void openImageSelector() {
         Intent intent;
         if (Build.VERSION.SDK_INT < 19) {
             intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -323,6 +275,92 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
         }
         intent.setType("image/*");
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void finishActtivity() {
+        finish();
+    }
+
+    @Override
+    public boolean addItemToDb() {
+        boolean isAllOk = true;
+        if (!checkIfValueSet(nameEdit, "name")) {
+            isAllOk = false;
+        }
+        if (!checkIfValueSet(priceEdit, "price")) {
+            isAllOk = false;
+        }
+        if (!checkIfValueSet(quantityEdit, "quantity")) {
+            isAllOk = false;
+        }
+        if (actualUri == null && currentItemId.equals("")) {
+            isAllOk = false;
+            imageBtn.setError("Missing image");
+        }
+        return isAllOk;
+    }
+
+    @Override
+    public String getCurrentName() {
+        return nameEdit.getText().toString().trim();
+    }
+
+    @Override
+    public String getImage() {
+        return imageView.toString();
+    }
+
+    @Override
+    public String getItemDescription() {
+       return itemDescription.getText().toString();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        presenter.onStop();
+        super.onStop();
+    }
+
+    @Override
+    public String getPrice() {
+        return priceEdit.getText().toString().trim();
+    }
+
+    @Override
+    public void setName(String itemName) {
+        nameEdit.setText(itemName);
+    }
+
+    @Override
+    public void setPrice(String valueOf) {
+        priceEdit.setText(valueOf);
+    }
+
+    @Override
+    public void setImage(String image) {
+        imageView.setImageURI(Uri.parse(image));
+    }
+
+    @Override
+    public void setNameEnable(boolean b) {
+        nameEdit.setEnabled(b);
+    }
+
+    @Override
+    public void setPriceEnable(boolean b) {
+        priceEdit.setEnabled(b);
+    }
+
+    @Override
+    public void setImageEnable(boolean b) {
+        imageBtn.setEnabled(b);
     }
 
     @Override

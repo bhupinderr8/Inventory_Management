@@ -64,14 +64,35 @@ public class FireBaseHelper implements RegisterRepository, LoginRepository, Item
         mDatabase.child(ITEM_TABLE + "/"+itemId).child("qty").setValue(qty);
     }
 
-    public int deleteAllItems() {
+    public void deleteAllItems() {
         mDatabase.child(ITEM_TABLE).setValue(null);
-        return 0;
     }
 
-    public int deleteItem(String itemId) {
+    @Override
+    public void updateValues(final String currentItemId) {
+        mDatabase.child(ITEM_TABLE).addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot child : dataSnapshot.getChildren())
+                {
+                    if(child.getKey().equals(currentItemId))
+                    {
+                        EventBus.getDefault().post(child.getValue(itemObject.class));
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void deleteItem(String itemId) {
         mDatabase.child(ITEM_TABLE).child(itemId).setValue(null);
-        return 0;
     }
 
     private void checkUser(final String username, final String password)
