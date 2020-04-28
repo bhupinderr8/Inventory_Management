@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -20,7 +21,7 @@ import com.example.inventory.utils.SessionImpl;
 public class LoginViewImpl extends AppCompatActivity implements LoginView{
     private EditText usernameEditText;
     private EditText passwordEditText;
-    private Button loginButton;
+    private FrameLayout loginButton;
     private Session session;
     private LoginPresenter presenter;
     private ProgressBar progressBar;
