@@ -20,7 +20,6 @@ public class HomeActivity extends AppCompatActivity implements HomeView{
     private Button newItemButton;
     private Button orderButton;
     private Button viewItemsButton;
-    private TextView userNameTextView;
     private HomePresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +28,6 @@ public class HomeActivity extends AppCompatActivity implements HomeView{
         newItemButton = findViewById(R.id.add_new_item_button);
         orderButton = findViewById(R.id.order_button);
         viewItemsButton = findViewById(R.id.view_items_button);
-        userNameTextView = findViewById(R.id.user_name_text_view);
         presenter = new HomePresenterImpl(this, new SessionImpl(this));
     }
 
@@ -66,7 +64,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView{
 
     @Override
     public void showName(String name) {
-        userNameTextView.setText(name);
+        show(name);
     }
 
     @Override

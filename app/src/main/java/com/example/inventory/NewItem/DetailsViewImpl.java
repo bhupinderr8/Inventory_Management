@@ -23,7 +23,6 @@ import androidx.core.app.NavUtils;
 import androidx.core.content.ContextCompat;
 
 import com.example.inventory.R;
-import com.example.inventory.utils.FireBaseHelper;
 import com.example.inventory.DataObject.itemObject;
 
 public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
@@ -35,9 +34,6 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
     EditText priceEdit;
     EditText quantityEdit;
     String currentItemId;
-    Button decreaseQuantity;
-    Button increaseQuantity;
-    Button imageBtn;
     EditText itemDescription;
     ImageView imageView;
     Uri actualUri;
@@ -53,33 +49,13 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        nameEdit = findViewById(R.id.nameEdit);
-        priceEdit = findViewById(R.id.priceEditText);
         quantityEdit = findViewById(R.id.qtyEditText);
-        decreaseQuantity = findViewById(R.id.qtyDecrementButton);
-        increaseQuantity = findViewById(R.id.qtyIncrementButton);
-        imageBtn = findViewById(R.id.selectImageButton);
         imageView = findViewById(R.id.itemImage);
         itemDescription = findViewById(R.id.description);
-//        dbHelper = new FireBaseHelper();
         currentItemId = getIntent().getExtras().getString("ItemId", "");
         presenter = new DetailsPresenterImpl(this);
 
-        decreaseQuantity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.onSubtractOneToQuantity();
-            }
-        });
-
-        increaseQuantity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.onSumOneToQuantity();
-            }
-        });
-
-        imageBtn.setOnClickListener(new View.OnClickListener() {
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tryToOpenImageSelector();
@@ -225,7 +201,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
         imageView.setImageURI(Uri.parse(item.getImage()));
         nameEdit.setEnabled(false);
         priceEdit.setEnabled(false);
-        imageBtn.setEnabled(false);
+        imageView.setEnabled(false);
     }
 
     private void showDeleteConfirmationDialog(final String itemId) {
@@ -296,7 +272,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
         }
         if (actualUri == null && currentItemId.equals("")) {
             isAllOk = false;
-            imageBtn.setError("Missing image");
+            imageView.setImageResource(R.drawable.common_google_signin_btn_icon_dark);
         }
         return isAllOk;
     }
@@ -360,7 +336,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
 
     @Override
     public void setImageEnable(boolean b) {
-        imageBtn.setEnabled(b);
+        imageView.setEnabled(b);
     }
 
     @Override

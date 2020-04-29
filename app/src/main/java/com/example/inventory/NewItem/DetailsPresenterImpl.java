@@ -16,8 +16,8 @@ public class DetailsPresenterImpl implements DetailsPresenter {
     public DetailsPresenterImpl(DetailsView view) {
         this.view = view;
         this.repository = new FireBaseHelper();
-        if (view.getCurrentItemId().equals("")) {
-            view.setTitle("Add NEw Item");
+        if (view.getCurrentItemId()==null || view.getCurrentItemId().equals("")) {
+            view.setTitle("Add New Item");
 
         } else {
             view.setTitle("Edit Item");
