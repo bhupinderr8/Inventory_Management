@@ -23,7 +23,6 @@ public class ConfirmViewImpl extends AppCompatActivity implements ConfirmView {
     private static final String TAG = "Check";
     ListView listview;
     FloatingActionButton fab;
-    SearchView searchView;
     SessionImpl session;
     FireBaseHelper dbhelper;
     ConfirmAdapter adapter;
@@ -36,8 +35,6 @@ public class ConfirmViewImpl extends AppCompatActivity implements ConfirmView {
         dbhelper = new FireBaseHelper();
         listview = findViewById(R.id.confirm_list_view);
 
-        fab = findViewById(R.id.confirm_action_button);
-        searchView = findViewById(R.id.confirm_search_view);
         session = new SessionImpl(this);
         final HashMap<String, Integer> list = (HashMap<String, Integer>) getIntent().getSerializableExtra("list");
 

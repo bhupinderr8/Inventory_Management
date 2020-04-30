@@ -90,7 +90,7 @@
             android:layout_marginRight="8dp"
             android:text="@string/supplier"
             android:textAlignment="center"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/primaryTextColor"
             android:textSize="18sp"
             android:textStyle="bold" />
 

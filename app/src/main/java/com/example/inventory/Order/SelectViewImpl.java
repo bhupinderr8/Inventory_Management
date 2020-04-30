@@ -32,7 +32,6 @@ public class SelectViewImpl extends AppCompatActivity implements SelectView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
 
-        searchView = findViewById(R.id.select_search_view);
         recyclerView = findViewById(R.id.select_recycler_view);
 
         dbHelper = new FireBaseHelper();
@@ -56,16 +55,6 @@ public class SelectViewImpl extends AppCompatActivity implements SelectView {
             @Override
             public boolean onSuggestionClick(int position) {
                 return false;
-            }
-        });
-        final FloatingActionButton fab = findViewById(R.id.select_floating_action_button);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(SelectViewImpl.this, ConfirmViewImpl.class);
-                intent.putExtra("list", adapter.mList);
-                startActivityForResult(intent, 0);
             }
         });
 

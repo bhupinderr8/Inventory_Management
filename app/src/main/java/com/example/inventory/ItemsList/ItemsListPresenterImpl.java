@@ -89,6 +89,16 @@ public class ItemsListPresenterImpl implements ItemsListPresenter {
         repository.queryItemName(text);
     }
 
+    @Override
+    public void OnNewOrderButton() {
+
+    }
+
+    @Override
+    public void OnAddItem() {
+
+    }
+
     @Subscribe
     public void onEventMainThread(ItemsListEvent event)
     {

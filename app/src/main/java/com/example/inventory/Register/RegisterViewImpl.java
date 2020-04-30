@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.inventory.Home.HomeActivity;
+import com.example.inventory.ItemsList.ItemsListViewImpl;
 import com.example.inventory.R;
 import com.example.inventory.DataObject.userObject;
 import com.example.inventory.utils.SessionImpl;
@@ -167,7 +167,7 @@ public class RegisterViewImpl extends AppCompatActivity implements RegisterView{
     @Override
     public void onSignupSuccess() {
         session.doLogin(getName());
-        startActivity(new Intent(RegisterViewImpl.this, HomeActivity.class));
+        startActivity(new Intent(RegisterViewImpl.this, ItemsListViewImpl.class));
         finish();
     }
 

@@ -17,7 +17,6 @@
         <activity android:name=".AddBuyer.AddBuyerViewImpl" />
         <activity android:name=".Order.ConfirmViewImpl" />
         <activity android:name=".Order.SelectViewImpl" />
-        <activity android:name=".Home.HomeActivity" />
         <!-- suppress AndroidDomInspection -->
         <activity
             android:name=".Login.LoginViewImpl"

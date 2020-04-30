@@ -8,4 +8,8 @@ public interface ItemsListPresenter {
     void onStop();
 
     void onQueryTextChange(String text);
+
+    void OnNewOrderButton();
+
+    void OnAddItem();
 }

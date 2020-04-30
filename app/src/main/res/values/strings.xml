@@ -42,7 +42,7 @@
     <string name="welcome">Logged In</string>
     <string name="add_user">ADD_USER</string>
     <string name="register">Register</string>
-    <string name="logout">Logout</string>
+    <string name="logout">LOGOUT</string>
     <string name="user_name">User Name</string>
     <string name="add_items">ADD ITEMS</string>
     <string name="new_order">NEW ORDER</string>
@@ -55,4 +55,14 @@
     <string name="item_description">item Description</string>
     <string name="description">Description</string>
     <string name="todo">TODO</string>
+    <string name="buyer_details">Buyer Details</string>
+    <string name="buyer_name">Buyer Name</string>
+    <string name="password">Password</string>
+    <string name="account_number">Account Number</string>
+    <string name="birth_date">Birth Date</string>
+    <string name="textview">TextView</string>
+    <string name="address">Address</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="register1">register</string>
+    <string name="search">Search</string>
 </resources>

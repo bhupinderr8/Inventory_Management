@@ -86,6 +86,12 @@ public class ItemsListViewImpl extends AppCompatActivity implements OnClickListe
             case R.id.logout:
                 presenter.OnLogoutButton();
                 break;
+            case R.id.action_new_order:
+                presenter.OnNewOrderButton();
+                break;
+            case R.id.action_add_items:
+                presenter.OnAddItem();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

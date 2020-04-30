@@ -6,13 +6,12 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.inventory.Home.HomeActivity;
+import com.example.inventory.ItemsList.ItemsListViewImpl;
 import com.example.inventory.R;
 import com.example.inventory.Register.RegisterViewImpl;
 import com.example.inventory.utils.Session;
@@ -72,7 +71,7 @@ public class LoginViewImpl extends AppCompatActivity implements LoginView{
     @Override
     public void onSignInSucess() {
         show("Welcome");
-        Intent intent = new Intent(LoginViewImpl.this, HomeActivity.class);
+        Intent intent = new Intent(LoginViewImpl.this, ItemsListViewImpl.class);
         startActivity(intent);
         finish();
     }
