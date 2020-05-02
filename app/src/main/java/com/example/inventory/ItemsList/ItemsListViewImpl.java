@@ -11,8 +11,10 @@ import android.view.MenuItem;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.example.inventory.NewItem.DetailsViewImpl;
+import com.example.inventory.ItemDetail.DetailsViewImpl;
 import com.example.inventory.Login.LoginViewImpl;
+import com.example.inventory.Order.SelectView;
+import com.example.inventory.Order.SelectViewImpl;
 import com.example.inventory.R;
 import com.example.inventory.utils.SessionImpl;
 import com.example.inventory.DataObject.itemObject;
@@ -131,6 +133,19 @@ public class ItemsListViewImpl extends AppCompatActivity implements OnClickListe
             i++;
         }
         return false;
+    }
+
+    @Override
+    public void launchNewOrderActivity() {
+        Intent intent = new Intent(ItemsListViewImpl.this, SelectViewImpl.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void launchDetailsActivity() {
+        Intent intent = new Intent(ItemsListViewImpl.this, DetailsViewImpl.class);
+        intent.putExtra("ItemId", "");
+        startActivity(intent);
     }
 
     @Override

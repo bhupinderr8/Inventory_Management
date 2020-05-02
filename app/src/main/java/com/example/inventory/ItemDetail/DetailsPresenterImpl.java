@@ -1,6 +1,6 @@
-package com.example.inventory.NewItem;
+package com.example.inventory.ItemDetail;
 
-import android.net.Uri;
+import android.util.Log;
 
 import com.example.inventory.DataObject.itemObject;
 import com.example.inventory.utils.FireBaseHelper;
@@ -10,12 +10,15 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class DetailsPresenterImpl implements DetailsPresenter {
 
+    private static final String LOG_TAG = DetailsPresenter.class.getCanonicalName();
+
     DetailsView view;
     DetailsRepository repository;
 
     public DetailsPresenterImpl(DetailsView view) {
         this.view = view;
         this.repository = new FireBaseHelper();
+        Log.e(LOG_TAG, view.getCurrentItemId());
         if (view.getCurrentItemId()==null || view.getCurrentItemId().equals("")) {
             view.setTitle("Add New Item");
 

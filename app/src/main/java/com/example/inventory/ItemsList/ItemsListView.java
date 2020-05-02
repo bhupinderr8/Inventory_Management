@@ -15,4 +15,8 @@ public interface ItemsListView {
     void clearAllItems();
 
     boolean itemInAdapter(String itemNumber);
+
+    void launchNewOrderActivity();
+
+    void launchDetailsActivity();
 }

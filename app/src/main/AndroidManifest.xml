@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ItemsList.ItemsListViewImpl" />
-        <activity android:name=".NewItem.DetailsViewImpl">
+        <activity android:name=".ItemDetail.DetailsViewImpl">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>

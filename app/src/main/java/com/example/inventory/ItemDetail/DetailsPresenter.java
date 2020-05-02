@@ -1,4 +1,4 @@
-package com.example.inventory.NewItem;
+package com.example.inventory.ItemDetail;
 
 public interface DetailsPresenter {
     void onSubtractOneToQuantity();

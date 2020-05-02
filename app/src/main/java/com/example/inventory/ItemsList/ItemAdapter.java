@@ -39,9 +39,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         itemObject model = data.get(position);
         holder.productName.setText(model.getItemName());
         holder.imageView.setImageURI(Uri.parse(model.getImage()));
-        String priceString = "Price " + model.getPrice();
+        String priceString = model.getPrice() + " Rs";
         holder.price.setText(priceString);
-        String qtyString = "Qty " + model.getQty();
+        String qtyString = Integer.toString(model.getQty());
         holder.qty.setText(qtyString);
 
         holder.setClickListener(listener, model);

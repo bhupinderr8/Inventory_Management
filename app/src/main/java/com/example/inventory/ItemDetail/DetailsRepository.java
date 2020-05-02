@@ -1,4 +1,4 @@
-package com.example.inventory.NewItem;
+package com.example.inventory.ItemDetail;
 
 import com.example.inventory.DataObject.itemObject;
 

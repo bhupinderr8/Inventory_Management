@@ -1,4 +1,4 @@
-package com.example.inventory.NewItem;
+package com.example.inventory.ItemDetail;
 
 import android.Manifest;
 import android.app.Activity;
@@ -9,10 +9,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -48,11 +48,13 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
+        nameEdit = findViewById(R.id.nameEditText);
+        priceEdit = findViewById(R.id.priceEditText);
         quantityEdit = findViewById(R.id.qtyEditText);
         imageView = findViewById(R.id.itemImage);
         itemDescription = findViewById(R.id.description);
         currentItemId = getIntent().getExtras().getString("ItemId", "");
+        Log.e(LOG_TAG, currentItemId);
         presenter = new DetailsPresenterImpl(this);
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -165,7 +167,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
 
     @Override
     public String getCurrentItemId() {
-        return null;
+        return currentItemId;
     }
 
     @Override

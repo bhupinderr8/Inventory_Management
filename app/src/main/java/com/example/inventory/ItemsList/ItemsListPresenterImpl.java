@@ -91,12 +91,12 @@ public class ItemsListPresenterImpl implements ItemsListPresenter {
 
     @Override
     public void OnNewOrderButton() {
-
+        view.launchNewOrderActivity();
     }
 
     @Override
     public void OnAddItem() {
-
+        view.launchDetailsActivity();
     }
 
     @Subscribe

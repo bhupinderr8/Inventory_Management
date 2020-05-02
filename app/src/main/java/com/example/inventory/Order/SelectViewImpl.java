@@ -44,20 +44,6 @@ public class SelectViewImpl extends AppCompatActivity implements SelectView {
         recyclerView.setAdapter(adapter);
         session = new SessionImpl(this);
 
-        
-
-        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
-            @Override
-            public boolean onSuggestionSelect(int position) {
-                return false;
-            }
-
-            @Override
-            public boolean onSuggestionClick(int position) {
-                return false;
-            }
-        });
-
     }
 
     @Override
