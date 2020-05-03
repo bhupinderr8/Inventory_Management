@@ -223,6 +223,7 @@ public class FireBaseHelper implements RegisterRepository, LoginRepository, Item
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 itemObject item = dataSnapshot.getValue(itemObject.class);
+                Log.e(LOG_TAG, "New child added" + item.toString());
                 EventBus.getDefault().post(new ItemsListEvent(item, ItemsListEvent.onChildAdded));
             }
 

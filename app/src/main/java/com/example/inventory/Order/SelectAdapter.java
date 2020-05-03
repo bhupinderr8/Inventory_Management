@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,40 +40,27 @@ public class SelectAdapter extends  FirebaseRecyclerAdapter<itemObject, SelectAd
     protected void onBindViewHolder(@NonNull final SelectViewHolder holder, int position, @NonNull final itemObject model) {
         holder.productName.setText(model.getItemName());
         holder.imageView.setImageURI(Uri.parse(model.getImage()));
-        holder.price.setText(String.valueOf(model.getPrice()));
+        holder.price.setText("");
         holder.qty.setText("0");
 
-        holder.incrementButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String val = holder.qty.getText().toString();
-                int finalValue=Integer.parseInt(val);
+        holder.qtySeekBar.setMax(model.getPrice());
 
-                if(finalValue < model.getQty())
-                {
-                    finalValue = finalValue+1;
-                }
-                holder.qty.setText(String.valueOf(finalValue));
-                mList.put(model.getItemNumber(), finalValue);
+        holder.qtySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                holder.qty.setText(String.valueOf(progress));
+                String p = String.valueOf(progress*model.getPrice()) + " Rs";
+                holder.price.setText(p);
             }
-        });
 
-        holder.decrementButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String val = holder.qty.getText().toString();
-                int finalValue=Integer.parseInt(val);
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
-                if(finalValue==0)
-                {
-                    return;
-                }
-                finalValue = finalValue - 1;
-                holder.qty.setText(String.valueOf(finalValue));
-                if(finalValue>0)
-                    mList.put(model.getItemNumber(), finalValue);
-                else
-                    mList.remove(model.getItemNumber());
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
 
@@ -120,16 +108,15 @@ public class SelectAdapter extends  FirebaseRecyclerAdapter<itemObject, SelectAd
 
         ImageView imageView;
         TextView price,productName;
-        EditText qty;
-        Button incrementButton, decrementButton;
+        TextView qty;
+        SeekBar qtySeekBar;
         public SelectViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.select_image_view);
             productName = itemView.findViewById(R.id.select_name);
             price = itemView.findViewById(R.id.select_price);
             qty = itemView.findViewById(R.id.select_qty_edit_text);
-            incrementButton = itemView.findViewById(R.id.select_increment_button);
-            decrementButton= itemView.findViewById(R.id.select_decrement_button);
+            qtySeekBar = itemView.findViewById(R.id.select_qty_seek_bar);
         }
     }
 }

@@ -31,10 +31,12 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/priceSeekBar"
                 style="@android:style/Widget.Material.SeekBar"
-                android:layout_height="match_parent"
                 android:layout_width="0dp"
-                android:layout_weight="9" />
+                android:layout_height="match_parent"
+                android:layout_weight="9"
+                android:max="99" />
 
             <EditText
                 android:id="@+id/priceEditText"
@@ -61,10 +63,12 @@
             android:weightSum="12">
 
             <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/qtySeekBar"
                 style="@android:style/Widget.Material.SeekBar"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="9" />
+                android:layout_weight="9"
+                android:max="99" />
 
             <EditText
                 android:id="@+id/qtyEditText"

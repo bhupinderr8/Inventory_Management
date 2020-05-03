@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +30,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
 
     private static final String LOG_TAG = DetailsViewImpl.class.getCanonicalName();
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-//    private FireBaseHelper dbHelper;
+
     EditText nameEdit;
     EditText priceEdit;
     EditText quantityEdit;
@@ -40,6 +41,8 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
     private static final int PICK_IMAGE_REQUEST = 0;
     Boolean infoItemHasChanged = false;
     DetailsPresenter presenter;
+    SeekBar priceSeekBar;
+    SeekBar qtySeekBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +57,8 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
         imageView = findViewById(R.id.itemImage);
         itemDescription = findViewById(R.id.description);
         currentItemId = getIntent().getExtras().getString("ItemId", "");
-        Log.e(LOG_TAG, currentItemId);
+        qtySeekBar = findViewById(R.id.qtySeekBar);
+        priceSeekBar = findViewById(R.id.priceSeekBar);
         presenter = new DetailsPresenterImpl(this);
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +67,40 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
                 tryToOpenImageSelector();
                 presenter.onImageSelectButton();
                 infoItemHasChanged = true;
+            }
+        });
+
+        qtySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                quantityEdit.setText(Integer.toString(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        priceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                priceEdit.setText(Integer.toString(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
     }
@@ -124,11 +162,11 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
         switch (item.getItemId()) {
             case R.id.action_save:
                 presenter.onActionSave();
-                return true;
+                break;
             case android.R.id.home:
                 if (!infoItemHasChanged) {
                     NavUtils.navigateUpFromSameTask(this);
-                    return true;
+                    break;
                 }
                 DialogInterface.OnClickListener discardButtonClickListener =
                         new DialogInterface.OnClickListener() {
@@ -140,17 +178,17 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
                         };
                 // Show a dialog that notifies the user they have unsaved changes
                 showUnsavedChangesDialog(discardButtonClickListener);
-                return true;
+                break;
             case R.id.action_delete_item:
                 // delete one item
                 showDeleteConfirmationDialog(currentItemId);
-                return true;
+                break;
             case R.id.action_delete_all_data:
                 //delete all data
                 showDeleteConfirmationDialog("");
-                return true;
+                break;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
 
@@ -286,7 +324,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
 
     @Override
     public String getImage() {
-        return imageView.toString();
+        return actualUri.toString();
     }
 
     @Override

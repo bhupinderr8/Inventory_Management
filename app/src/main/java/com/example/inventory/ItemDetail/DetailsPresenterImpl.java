@@ -65,7 +65,7 @@ public class DetailsPresenterImpl implements DetailsPresenter {
     @Override
     public void onActionSave() {
         if (view.addItemToDb()) {
-            if (view.getCurrentItemId() == "") {
+            if (view.getCurrentItemId().equals("") || view.getCurrentItemId()==null) {
                 itemObject itemObj = new itemObject(
                         view.getCurrentName(),
                         view.getImage(),
@@ -73,12 +73,13 @@ public class DetailsPresenterImpl implements DetailsPresenter {
                         Integer.parseInt(view.getQuantity()),
                         Integer.parseInt(view.getPrice())
                 );
+                Log.e(LOG_TAG, "New Object Is : " + view.getCurrentName());
                 repository.insertItem(itemObj);
             } else {
                 repository.updateItem(view.getCurrentItemId(), Integer.valueOf(view.getQuantity()));
             }
+            view.finishActtivity();
         }
-        view.finishActtivity();
     }
 
     @Override
