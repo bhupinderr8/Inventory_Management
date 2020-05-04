@@ -15,7 +15,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Register.RegisterViewImpl"></activity>
         <activity android:name=".AddBuyer.AddBuyerViewImpl" />
-        <activity android:name=".Order.ConfirmViewImpl" />
         <activity android:name=".Order.SelectViewImpl" />
         <!-- suppress AndroidDomInspection -->
         <activity

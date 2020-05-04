@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.example.inventory.ItemDetail.DetailsViewImpl;
 import com.example.inventory.Login.LoginViewImpl;
-import com.example.inventory.Order.SelectView;
 import com.example.inventory.Order.SelectViewImpl;
 import com.example.inventory.R;
 import com.example.inventory.utils.SessionImpl;

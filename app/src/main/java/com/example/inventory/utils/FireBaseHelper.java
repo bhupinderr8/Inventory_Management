@@ -10,11 +10,10 @@ import com.example.inventory.AddBuyer.AddBuyerRepository;
 import com.example.inventory.ItemsList.ItemsListEvent;
 import com.example.inventory.ItemsList.ItemsListRepository;
 import com.example.inventory.ItemDetail.DetailsRepository;
-import com.example.inventory.Order.ConfirmAdapter;
 import com.example.inventory.ItemDetail.DetailsViewImpl;
 import com.example.inventory.Login.LoginEvent;
 import com.example.inventory.Login.LoginRepository;
-import com.example.inventory.Order.ConfirmRepository;
+import com.example.inventory.Order.SelectEvent;
 import com.example.inventory.Order.SelectRepository;
 import com.example.inventory.Register.RegisterEvent;
 import com.example.inventory.Register.RegisterRepository;
@@ -31,11 +30,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class FireBaseHelper implements RegisterRepository, LoginRepository, ItemsListRepository, AddBuyerRepository, DetailsRepository, SelectRepository, ConfirmRepository {
+public class FireBaseHelper implements RegisterRepository, LoginRepository, ItemsListRepository, AddBuyerRepository, DetailsRepository, SelectRepository {
     private final static String LOG_TAG = FireBaseHelper.class.getCanonicalName();
     private DatabaseReference mDatabase;
     private static String ITEM_TABLE = "itemObject";
@@ -155,30 +153,6 @@ public class FireBaseHelper implements RegisterRepository, LoginRepository, Item
         });
     }
 
-    public void addItems(final HashMap<String, Integer> list, final ArrayList<itemObject> objectArrayList, final ConfirmAdapter adapter)
-    {
-        Query query = mDatabase.child(ITEM_TABLE).limitToFirst(7);
-        mDatabase.child(ITEM_TABLE).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot child : dataSnapshot.getChildren())
-                {
-                    if(list.containsKey(child.getKey()))
-                    {
-                        objectArrayList.add(child.getValue(itemObject.class));
-                    }
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
     public void addUser(userObject admin) {
         String tmp = mDatabase.child(USER_TABLE).push().getKey();
         assert tmp != null;
@@ -252,6 +226,15 @@ public class FireBaseHelper implements RegisterRepository, LoginRepository, Item
     }
 
     @Override
+    public void updateItems(HashMap<String, Integer> mList) {
+        for(HashMap.Entry<String, Integer> entry : mList.entrySet())
+        {
+            updateItem(entry.getKey(), entry.getValue());
+        }
+
+    }
+
+    @Override
     public void queryItemName(final String text) {
         Query query = mDatabase.child(ITEM_TABLE);
         Log.d(LOG_TAG, query.toString());
@@ -265,10 +248,46 @@ public class FireBaseHelper implements RegisterRepository, LoginRepository, Item
                     {
                         Log.d(LOG_TAG, "Child Added");
                         itemObject item = child.getValue(itemObject.class);
-                        if(item.getItemName().toLowerCase().contains(text.toLowerCase()))
+                        if(item.getItemName().toLowerCase().contains(text.toLowerCase())){
                             EventBus.getDefault().post(new ItemsListEvent(item, ItemsListEvent.onChildAdded));
+                            EventBus.getDefault().post(new SelectEvent(item, SelectEvent.onChildAdded));
+                        }
                     }
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void retrieveSelectItems() {
+        mDatabase.child(ITEM_TABLE).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                itemObject item = dataSnapshot.getValue(itemObject.class);
+                Log.e(LOG_TAG, "New child added" + item.toString());
+                EventBus.getDefault().post(new SelectEvent(item, SelectEvent.onChildAdded));
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                itemObject item = dataSnapshot.getValue(itemObject.class);
+                EventBus.getDefault().post(new SelectEvent(item, SelectEvent.onChildUpdated));
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                itemObject item = dataSnapshot.getValue(itemObject.class);
+                EventBus.getDefault().post(new SelectEvent(item, SelectEvent.onChildRemoved));
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
             }
 
             @Override
