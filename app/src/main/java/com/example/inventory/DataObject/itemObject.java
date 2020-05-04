@@ -8,6 +8,7 @@ public class itemObject{
     private Integer price;
     private String description;
     private Integer qty;
+    private String sellerId;
 
     public itemObject() {
     }
@@ -18,6 +19,14 @@ public class itemObject{
         this.description = description;
         this.qty = qty;
         this.price = price;
+    }
+
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
     }
 
     public void setItemNumber(String itemNumber) {

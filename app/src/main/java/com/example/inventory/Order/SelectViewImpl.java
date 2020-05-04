@@ -3,8 +3,6 @@ package com.example.inventory.Order;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListPopupWindow;
 import android.widget.PopupWindow;
@@ -25,6 +23,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SelectViewImpl extends AppCompatActivity implements SelectView, SelectAdapterView {
+
+    private static final String LOG_TAG = SelectViewImpl.class.getCanonicalName();
 
     SearchView searchView;
     private RecyclerView recyclerView;
@@ -171,16 +171,9 @@ public class SelectViewImpl extends AppCompatActivity implements SelectView, Sel
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ITEMS);
         popup.setAdapter(adapter1);
         popup.setAnchorView(anchor);
-        popup.setHeight(ListPopupWindow.MATCH_PARENT);
-        popup.setWidth(ListPopupWindow.MATCH_PARENT);
-        popup.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view,
-                                            int position, long id) {
-                        popup.dismiss();
-                    }
-                });
+        popup.setHorizontalOffset(-300);
+        popup.setHeight(1200);
+        popup.setWidth(900);
 
         popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override

@@ -99,6 +99,11 @@ public class ItemsListPresenterImpl implements ItemsListPresenter {
         view.launchDetailsActivity();
     }
 
+    @Override
+    public void OnAddBuyer() {
+        view.launchAddBuyerActivity();
+    }
+
     @Subscribe
     public void onEventMainThread(ItemsListEvent event)
     {

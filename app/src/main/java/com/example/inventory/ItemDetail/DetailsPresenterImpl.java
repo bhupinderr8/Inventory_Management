@@ -2,6 +2,7 @@ package com.example.inventory.ItemDetail;
 
 import android.util.Log;
 
+import com.example.inventory.DataObject.buyerObject;
 import com.example.inventory.DataObject.itemObject;
 import com.example.inventory.utils.FireBaseHelper;
 
@@ -26,6 +27,7 @@ public class DetailsPresenterImpl implements DetailsPresenter {
             view.setTitle("Edit Item");
             repository.updateValues(view.getCurrentItemId());
         }
+        repository.getBuyerUpdates();
     }
 
     @Override
@@ -73,6 +75,7 @@ public class DetailsPresenterImpl implements DetailsPresenter {
                         Integer.parseInt(view.getQuantity()),
                         Integer.parseInt(view.getPrice())
                 );
+                itemObj.setSellerId(view.getCurrentSellerId());
                 Log.e(LOG_TAG, "New Object Is : " + view.getCurrentName());
                 repository.insertItem(itemObj);
             } else {
@@ -109,9 +112,15 @@ public class DetailsPresenterImpl implements DetailsPresenter {
         view.setPrice(String.valueOf(item.getPrice()));
         view.setQuantity(String.valueOf(item.getQty()));
         view.setImage(item.getImage());
+        view.setSpinnerEnable(false);
         view.setNameEnable(false);
         view.setPriceEnable(false);
         view.setImageEnable(false);
+    }
+
+    @Subscribe
+    public void onEventMainThread(buyerObject item){
+        view.addBuyer(item);
     }
 
 }

@@ -19,4 +19,6 @@ public interface ItemsListView {
     void launchNewOrderActivity();
 
     void launchDetailsActivity();
+
+    void launchAddBuyerActivity();
 }

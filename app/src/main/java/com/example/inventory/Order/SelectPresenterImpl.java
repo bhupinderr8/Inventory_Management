@@ -19,7 +19,6 @@ public class SelectPresenterImpl implements SelectPresenter {
         repository = new FireBaseHelper();
         confirm = false;
         setupAdapter();
-
         pupulateItems();
     }
 

@@ -20,4 +20,5 @@ public interface SelectView {
     void finishActivity();
 
     void showPopUpWindow();
+
 }

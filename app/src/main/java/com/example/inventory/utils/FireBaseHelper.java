@@ -89,6 +89,40 @@ public class FireBaseHelper implements RegisterRepository, LoginRepository, Item
         });
     }
 
+    @Override
+    public void getBuyerUpdates() {
+        mDatabase.child(BUYER_TABLE).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                buyerObject item = dataSnapshot.getValue(buyerObject.class);
+                Log.e(LOG_TAG, "New child added" + item.toString());
+                EventBus.getDefault().post(item);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                buyerObject item = dataSnapshot.getValue(buyerObject.class);
+                EventBus.getDefault().post(item);
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                buyerObject item = dataSnapshot.getValue(buyerObject.class);;
+                EventBus.getDefault().post(item);
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public void deleteItem(String itemId) {
         mDatabase.child(ITEM_TABLE).child(itemId).setValue(null);
     }
@@ -142,8 +176,8 @@ public class FireBaseHelper implements RegisterRepository, LoginRepository, Item
                     }
                 }
                 String buyerId = mDatabase.child(BUYER_TABLE).push().getKey();
+                obj.setBuyerId(buyerId);
                 mDatabase.child(BUYER_TABLE).child(obj.getBuyerId()).setValue(obj);
-                mDatabase.child(BUYER_TABLE).child(buyerId).child("buyerId").setValue(buyerId);
             }
 
             @Override

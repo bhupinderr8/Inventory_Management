@@ -11,16 +11,14 @@
         app:showAsAction="always"
         app:actionViewClass="android.widget.SearchView" />
     <item
-        android:id="@+id/action_add_dummy_data"
-        android:title="@string/action_add_dummy_data"
-        android:icon="@drawable/ic_cloud_download_black_24dp"
-        />
-    <item
         android:id="@+id/action_new_order"
         android:title="@string/new_order" />
     <item
         android:id="@+id/action_add_items"
         android:title="@string/add_items" />
+    <item
+        android:id="@+id/action_add_buyer"
+        android:title="Add Buyer" />
     <item
         android:id="@+id/logout"
         android:icon="@drawable/logout"

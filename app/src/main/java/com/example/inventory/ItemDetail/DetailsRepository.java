@@ -12,4 +12,6 @@ public interface DetailsRepository {
     void deleteAllItems();
 
     void updateValues(String currentItemId);
+
+    void getBuyerUpdates();
 }

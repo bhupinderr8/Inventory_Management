@@ -13,9 +13,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +25,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NavUtils;
 import androidx.core.content.ContextCompat;
 
+import com.example.inventory.DataObject.buyerObject;
 import com.example.inventory.R;
 import com.example.inventory.DataObject.itemObject;
 
@@ -43,6 +46,8 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
     DetailsPresenter presenter;
     SeekBar priceSeekBar;
     SeekBar qtySeekBar;
+    Spinner spinner;
+    ArrayAdapter<buyerObject> supplierAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,10 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
         priceEdit = findViewById(R.id.priceEditText);
         quantityEdit = findViewById(R.id.qtyEditText);
         imageView = findViewById(R.id.itemImage);
+        spinner = findViewById(R.id.spinner_supplier_option);
+        supplierAdapter = new ArrayAdapter<buyerObject>(this,
+                R.layout.drop_down_item);
+        spinner.setAdapter(supplierAdapter);
         itemDescription = findViewById(R.id.description);
         currentItemId = getIntent().getExtras().getString("ItemId", "");
         qtySeekBar = findViewById(R.id.qtySeekBar);
@@ -377,6 +386,23 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
     @Override
     public void setImageEnable(boolean b) {
         imageView.setEnabled(b);
+    }
+
+    @Override
+    public void addBuyer(buyerObject item) {
+        supplierAdapter.add(item);
+        supplierAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public String getCurrentSellerId() {
+        int pos = spinner.getSelectedItemPosition();
+        return supplierAdapter.getItem(pos).getBuyerId();
+    }
+
+    @Override
+    public void setSpinnerEnable(boolean b) {
+        spinner.setEnabled(b);
     }
 
     @Override

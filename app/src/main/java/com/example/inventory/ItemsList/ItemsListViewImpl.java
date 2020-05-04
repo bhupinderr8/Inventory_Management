@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.inventory.AddBuyer.AddBuyerViewImpl;
 import com.example.inventory.ItemDetail.DetailsViewImpl;
 import com.example.inventory.Login.LoginViewImpl;
 import com.example.inventory.Order.SelectViewImpl;
@@ -80,10 +81,6 @@ public class ItemsListViewImpl extends AppCompatActivity implements OnClickListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add_dummy_data:
-                // add dummy data for testing
-                presenter.addDummyData();
-                break;
             case R.id.logout:
                 presenter.OnLogoutButton();
                 break;
@@ -92,6 +89,9 @@ public class ItemsListViewImpl extends AppCompatActivity implements OnClickListe
                 break;
             case R.id.action_add_items:
                 presenter.OnAddItem();
+                break;
+            case R.id.action_add_buyer:
+                presenter.OnAddBuyer();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -144,6 +144,12 @@ public class ItemsListViewImpl extends AppCompatActivity implements OnClickListe
     public void launchDetailsActivity() {
         Intent intent = new Intent(ItemsListViewImpl.this, DetailsViewImpl.class);
         intent.putExtra("ItemId", "");
+        startActivity(intent);
+    }
+
+    @Override
+    public void launchAddBuyerActivity() {
+        Intent intent = new Intent(ItemsListViewImpl.this, AddBuyerViewImpl.class);
         startActivity(intent);
     }
 

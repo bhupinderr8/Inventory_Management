@@ -4,7 +4,7 @@
     <string name="new_product">Add new item</string>
     <string name="hint_email_address">supplier@gmail.com</string>
     <string name="supplier_email_title">Supplier E-mail Address</string>
-    <string name="supplier_phone_hint">e.g. +49 000-000-000</string>
+    <string name="supplier_phone_hint">e.g. +91 000-000-000</string>
     <string name="supplier_phone_title">Supplier Phone</string>
     <string name="supplier_name_hint">Candy Supplier GmbH</string>
     <string name="supplier_name_title">Supplier Name</string>
@@ -40,13 +40,13 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="welcome">Logged In</string>
-    <string name="add_user">ADD_USER</string>
+    <string name="add_user">Add User</string>
     <string name="register">Register</string>
-    <string name="logout">LOGOUT</string>
+    <string name="logout">Logout</string>
     <string name="user_name">User Name</string>
-    <string name="add_items">ADD ITEMS</string>
-    <string name="new_order">NEW ORDER</string>
-    <string name="view_items">VIEW ITEMS</string>
+    <string name="add_items">Add Items</string>
+    <string name="new_order">New Order</string>
+    <string name="view_items">View Items</string>
     <string name="enter_product_name">Enter Product Name</string>
     <string name="qty">Qty</string>
     <string name="minus">-</string>

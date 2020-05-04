@@ -1,5 +1,7 @@
 package com.example.inventory.ItemDetail;
 
+import com.example.inventory.DataObject.buyerObject;
+
 public interface DetailsView {
     String getCurrentItemId();
     void setTitle(String str);
@@ -37,4 +39,10 @@ public interface DetailsView {
     void setPriceEnable(boolean b);
 
     void setImageEnable(boolean b);
+
+    void addBuyer(buyerObject obj);
+
+    String getCurrentSellerId();
+
+    void setSpinnerEnable(boolean b);
 }
