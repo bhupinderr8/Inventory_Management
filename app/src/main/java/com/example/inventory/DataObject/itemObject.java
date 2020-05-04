@@ -1,6 +1,6 @@
 package com.example.inventory.DataObject;
 
-public class itemObject{
+public class itemObject {
 
     private String itemName;
     private String itemNumber;
@@ -29,12 +29,12 @@ public class itemObject{
         this.sellerId = sellerId;
     }
 
-    public void setItemNumber(String itemNumber) {
-        this.itemNumber = itemNumber;
-    }
-
     public String getItemNumber() {
         return itemNumber;
+    }
+
+    public void setItemNumber(String itemNumber) {
+        this.itemNumber = itemNumber;
     }
 
     public String getItemName() {

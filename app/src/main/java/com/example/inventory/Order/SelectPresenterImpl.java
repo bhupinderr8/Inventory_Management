@@ -13,6 +13,7 @@ public class SelectPresenterImpl implements SelectPresenter {
     private SelectView view;
     private SelectRepository repository;
     private boolean confirm;
+
     public SelectPresenterImpl(SelectViewImpl selectView, SessionImpl session) {
         this.view = selectView;
         this.session = session;
@@ -24,8 +25,7 @@ public class SelectPresenterImpl implements SelectPresenter {
 
     @Override
     public void onQueryTextChange(String text) {
-        if(text.equals(""))
-        {
+        if (text.equals("")) {
             view.clearAllItems();
             pupulateItems();
             return;
@@ -56,7 +56,7 @@ public class SelectPresenterImpl implements SelectPresenter {
 
     @Override
     public void OnConfirmItemClicked() {
-        if(confirm)
+        if (confirm)
             DialogConfirmedAction();
         else
             view.showPopUpWindow();
@@ -74,36 +74,27 @@ public class SelectPresenterImpl implements SelectPresenter {
 
     @Override
     public void informDataChanged() {
-        confirm=false;
+        confirm = false;
     }
 
     @Subscribe
-    public void onEventMainThread(SelectEvent event)
-    {
-        if(event.getEventType() == SelectEvent.onChildAdded)
-        {
+    public void onEventMainThread(SelectEvent event) {
+        if (event.getEventType() == SelectEvent.onChildAdded) {
             addItemToAdapter(event.getItem());
 
-        }
-        else if(event.getEventType() == SelectEvent.onChildRemoved)
-        {
+        } else if (event.getEventType() == SelectEvent.onChildRemoved) {
             view.removeValueFromAdapter(event.getItem().getItemNumber());
             view.OnAdapterChange();
-        }
-        else if(event.getEventType() == SelectEvent.onChildUpdated)
-        {
+        } else if (event.getEventType() == SelectEvent.onChildUpdated) {
             view.removeValueFromAdapter(event.getItem().getItemNumber());
             addItemToAdapter(event.getItem());
-        }
-        else
-        {
+        } else {
             view.show("Something Went Wrong");
         }
     }
 
     private void addItemToAdapter(itemObject item) {
-        if(!view.itemInAdapter(item.getItemNumber()))
-        {
+        if (!view.itemInAdapter(item.getItemNumber())) {
             view.addItemToAdapter(item);
             view.OnAdapterChange();
             view.scrollToEnd();

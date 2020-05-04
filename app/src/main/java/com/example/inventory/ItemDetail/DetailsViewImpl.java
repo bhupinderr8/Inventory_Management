@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,15 +24,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NavUtils;
 import androidx.core.content.ContextCompat;
 
-import com.example.inventory.DataObject.buyerObject;
-import com.example.inventory.R;
+import com.example.inventory.DataObject.supplierObject;
 import com.example.inventory.DataObject.itemObject;
+import com.example.inventory.R;
 
-public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
+public class DetailsViewImpl extends AppCompatActivity implements DetailsView {
 
     private static final String LOG_TAG = DetailsViewImpl.class.getCanonicalName();
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-
+    private static final int PICK_IMAGE_REQUEST = 0;
     EditText nameEdit;
     EditText priceEdit;
     EditText quantityEdit;
@@ -41,13 +40,12 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
     EditText itemDescription;
     ImageView imageView;
     Uri actualUri;
-    private static final int PICK_IMAGE_REQUEST = 0;
     Boolean infoItemHasChanged = false;
     DetailsPresenter presenter;
     SeekBar priceSeekBar;
     SeekBar qtySeekBar;
     Spinner spinner;
-    ArrayAdapter<buyerObject> supplierAdapter;
+    ArrayAdapter<supplierObject> supplierAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +59,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
         quantityEdit = findViewById(R.id.qtyEditText);
         imageView = findViewById(R.id.itemImage);
         spinner = findViewById(R.id.spinner_supplier_option);
-        supplierAdapter = new ArrayAdapter<buyerObject>(this,
+        supplierAdapter = new ArrayAdapter<supplierObject>(this,
                 R.layout.drop_down_item);
         spinner.setAdapter(supplierAdapter);
         itemDescription = findViewById(R.id.description);
@@ -201,7 +199,6 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
     }
 
 
-
     private boolean checkIfValueSet(EditText text, String description) {
         if (TextUtils.isEmpty(text.getText())) {
             text.setError("Missing product " + description);
@@ -229,7 +226,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
 
     @Override
     public void setInfoHasChanged(boolean val) {
-        infoItemHasChanged=val;
+        infoItemHasChanged = val;
     }
 
     @Override
@@ -242,8 +239,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
         quantityEdit.setText(value);
     }
 
-    public void updateValues(itemObject item)
-    {
+    public void updateValues(itemObject item) {
         nameEdit.setText(item.getItemName());
         priceEdit.setText(String.valueOf(item.getPrice()));
         quantityEdit.setText(String.valueOf(item.getQty()));
@@ -337,8 +333,13 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
     }
 
     @Override
+    public void setImage(String image) {
+        imageView.setImageURI(Uri.parse(image));
+    }
+
+    @Override
     public String getItemDescription() {
-       return itemDescription.getText().toString();
+        return itemDescription.getText().toString();
     }
 
     @Override
@@ -359,18 +360,13 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
     }
 
     @Override
-    public void setName(String itemName) {
-        nameEdit.setText(itemName);
-    }
-
-    @Override
     public void setPrice(String valueOf) {
         priceEdit.setText(valueOf);
     }
 
     @Override
-    public void setImage(String image) {
-        imageView.setImageURI(Uri.parse(image));
+    public void setName(String itemName) {
+        nameEdit.setText(itemName);
     }
 
     @Override
@@ -389,7 +385,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
     }
 
     @Override
-    public void addBuyer(buyerObject item) {
+    public void addSupplier(supplierObject item) {
         supplierAdapter.add(item);
         supplierAdapter.notifyDataSetChanged();
     }
@@ -397,7 +393,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView{
     @Override
     public String getCurrentSellerId() {
         int pos = spinner.getSelectedItemPosition();
-        return supplierAdapter.getItem(pos).getBuyerId();
+        return supplierAdapter.getItem(pos).getSupplierId();
     }
 
     @Override

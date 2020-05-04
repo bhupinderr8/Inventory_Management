@@ -13,5 +13,5 @@ public interface DetailsRepository {
 
     void updateValues(String currentItemId);
 
-    void getBuyerUpdates();
+    void getSupplierUpdates();
 }

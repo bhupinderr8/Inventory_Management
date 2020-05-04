@@ -1,7 +1,5 @@
 package com.example.inventory.Register;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,9 +9,11 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.inventory.DataObject.userObject;
 import com.example.inventory.ItemsList.ItemsListViewImpl;
 import com.example.inventory.R;
-import com.example.inventory.DataObject.userObject;
 import com.example.inventory.utils.SessionImpl;
 
 import java.text.DateFormat;
@@ -21,7 +21,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class RegisterViewImpl extends AppCompatActivity implements RegisterView{
+public class RegisterViewImpl extends AppCompatActivity implements RegisterView {
 
     EditText userNameEditText, passwordEditText, addressEditText, accountNumberEditText, dobEditText, phoneEditText;
     DateFormat formatter;
@@ -67,8 +67,7 @@ public class RegisterViewImpl extends AppCompatActivity implements RegisterView{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.menu_item_register)
-        {
+        if (item.getItemId() == R.id.menu_item_register) {
             handleSignUp();
         }
         return true;

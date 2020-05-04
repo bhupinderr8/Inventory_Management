@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/buyer_details_layout"
+    android:id="@+id/supplier_details_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -13,21 +13,21 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="136dp"
         android:layout_marginTop="52dp"
-        android:text="@string/buyer_details"
+        android:text="@string/supplier_details"
         android:textColor="@color/primaryLightColor"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/buyer_name"
+        android:id="@+id/supplier_name"
         android:layout_width="258dp"
         android:layout_height="39dp"
         android:layout_marginStart="76dp"
         android:layout_marginTop="28dp"
         android:background="@drawable/text_background"
         android:ems="10"
-        android:hint="@string/buyer_name"
+        android:hint="@string/supplier_name"
         android:inputType="textPersonName"
         android:textAlignment="center"
         android:textColor="@color/primartTextLightColor"
@@ -37,7 +37,7 @@
         android:autofillHints="" />
 
     <EditText
-        android:id="@+id/buyer_phone_number"
+        android:id="@+id/supplier_phone_number"
         android:layout_width="249dp"
         android:layout_height="40dp"
         android:layout_marginStart="80dp"
@@ -49,11 +49,11 @@
         android:textAlignment="center"
         android:textColorHint="@color/primartTextLightColor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buyer_name"
+        app:layout_constraintTop_toBottomOf="@+id/supplier_name"
         android:autofillHints="" />
 
     <EditText
-        android:id="@+id/buyer_email_address"
+        android:id="@+id/supplier_email_address"
         android:layout_width="288dp"
         android:layout_height="39dp"
         android:layout_marginStart="60dp"
@@ -65,11 +65,11 @@
         android:textAlignment="center"
         android:textColorHint="@color/primartTextLightColor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buyer_phone_number"
+        app:layout_constraintTop_toBottomOf="@+id/supplier_phone_number"
         android:autofillHints="" />
 
     <EditText
-        android:id="@+id/buyer_details"
+        android:id="@+id/supplier_details"
         android:layout_width="0dp"
         android:layout_height="112dp"
         android:layout_marginStart="12dp"
@@ -84,6 +84,6 @@
         android:textColorHint="@color/primartTextLightColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buyer_email_address" />
+        app:layout_constraintTop_toBottomOf="@+id/supplier_email_address" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

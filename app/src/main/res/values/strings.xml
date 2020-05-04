@@ -55,8 +55,8 @@
     <string name="item_description">item Description</string>
     <string name="description">Description</string>
     <string name="todo">TODO</string>
-    <string name="buyer_details">Buyer Details</string>
-    <string name="buyer_name">Buyer Name</string>
+    <string name="supplier_details">Supplier Details</string>
+    <string name="supplier_name">Supplier Name</string>
     <string name="password">Password</string>
     <string name="account_number">Account Number</string>
     <string name="birth_date">Birth Date</string>
@@ -65,4 +65,5 @@
     <string name="phone_number">Phone Number</string>
     <string name="register1">register</string>
     <string name="search">Search</string>
+    <string name="add_supplier">Add Supplier</string>
 </resources>

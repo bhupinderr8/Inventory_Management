@@ -6,11 +6,17 @@ import java.util.HashMap;
 
 public interface SelectView {
     void setAdapter();
+
     void addItemToAdapter(itemObject item);
+
     void OnAdapterChange();
+
     void removeValueFromAdapter(String itemId);
+
     void show(String val);
+
     void scrollToEnd();
+
     void clearAllItems();
 
     boolean itemInAdapter(String itemNumber);

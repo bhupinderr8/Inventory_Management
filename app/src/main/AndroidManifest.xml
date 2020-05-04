@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Register.RegisterViewImpl"></activity>
-        <activity android:name=".AddBuyer.AddBuyerViewImpl" />
+        <activity android:name=".AddSupplier.AddSupplierViewImpl" />
         <activity android:name=".Order.SelectViewImpl" />
         <!-- suppress AndroidDomInspection -->
         <activity

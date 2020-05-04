@@ -1,11 +1,14 @@
 package com.example.inventory.ItemDetail;
 
-import com.example.inventory.DataObject.buyerObject;
+import com.example.inventory.DataObject.supplierObject;
 
 public interface DetailsView {
     String getCurrentItemId();
+
     void setTitle(String str);
+
     boolean getInfoHasChanged();
+
     void setInfoHasChanged(boolean val);
 
     String getQuantity();
@@ -24,15 +27,15 @@ public interface DetailsView {
 
     String getImage();
 
+    void setImage(String image);
+
     String getItemDescription();
 
     String getPrice();
 
-    void setName(String itemName);
-
     void setPrice(String valueOf);
 
-    void setImage(String image);
+    void setName(String itemName);
 
     void setNameEnable(boolean b);
 
@@ -40,7 +43,7 @@ public interface DetailsView {
 
     void setImageEnable(boolean b);
 
-    void addBuyer(buyerObject obj);
+    void addSupplier(supplierObject obj);
 
     String getCurrentSellerId();
 

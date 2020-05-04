@@ -12,30 +12,25 @@ public class LoginPresenterImpl implements LoginPresenter {
     private LoginRepository repository;
 
     public LoginPresenterImpl(LoginView loginActivity, SessionImpl session) {
-        view=loginActivity;
+        view = loginActivity;
         this.session = session;
         repository = new FireBaseHelper();
     }
 
     @Override
     public void initSignIn(String username, String password) {
-        if(isValidCredentials(username, password))
-        {
+        if (isValidCredentials(username, password)) {
             view.showProgress();
             repository.initSignIn(username, password);
         }
     }
 
-    private boolean isValidCredentials(String username, String password)
-    {
+    private boolean isValidCredentials(String username, String password) {
 
-        if(username.length()<5)
-        {
+        if (username.length() < 5) {
             view.show("username too Short");
             return false;
-        }
-        else if(password.length()<5)
-        {
+        } else if (password.length() < 5) {
             view.show("password too Short");
             return false;
 
@@ -45,7 +40,7 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     @Override
     public void initSignIn() {
-        if(session.isLogin()){
+        if (session.isLogin()) {
             view.onSignInSucess();
         }
     }
@@ -61,17 +56,13 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     @Subscribe
-    public void onEventMainThread(LoginEvent event)
-    {
-        if(event.getEventType() == LoginEvent.onSignInSuccess)
-        {
+    public void onEventMainThread(LoginEvent event) {
+        if (event.getEventType() == LoginEvent.onSignInSuccess) {
             view.hideProgress();
             view.clearText();
             session.doLogin(event.getUserName());
             view.onSignInSucess();
-        }
-        else
-        {
+        } else {
             view.onSignInError(event.getError());
         }
     }

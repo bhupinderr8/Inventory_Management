@@ -24,20 +24,18 @@ import java.util.HashMap;
 
 public class SelectViewImpl extends AppCompatActivity implements SelectView, SelectAdapterView {
 
-    private static final String LOG_TAG = SelectViewImpl.class.getCanonicalName();
-
-    SearchView searchView;
-    private RecyclerView recyclerView;
-    SelectAdapter adapter;
-    private ArrayList<itemObject> list;
-    private SelectPresenter presenter;
-    ConstraintLayout anchor;
-    static final String[] ITEMS={"lorem", "ipsum", "dolor",
+    static final String[] ITEMS = {"lorem", "ipsum", "dolor",
             "sit", "amet", "consectetuer", "adipiscing", "elit", "morbi",
             "vel", "ligula", "vitae", "arcu", "aliquet", "mollis", "etiam",
             "vel", "erat", "placerat", "ante", "porttitor", "sodales",
             "pellentesque", "augue", "purus"};
-
+    private static final String LOG_TAG = SelectViewImpl.class.getCanonicalName();
+    SearchView searchView;
+    SelectAdapter adapter;
+    ConstraintLayout anchor;
+    private RecyclerView recyclerView;
+    private ArrayList<itemObject> list;
+    private SelectPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,11 +111,9 @@ public class SelectViewImpl extends AppCompatActivity implements SelectView, Sel
 
     @Override
     public void removeValueFromAdapter(String itemId) {
-        int i=0;
-        while(i<list.size())
-        {
-            if(list.get(i).getItemNumber().equals(itemId))
-            {
+        int i = 0;
+        while (i < list.size()) {
+            if (list.get(i).getItemNumber().equals(itemId)) {
                 list.remove(i);
                 return;
             }
@@ -132,7 +128,7 @@ public class SelectViewImpl extends AppCompatActivity implements SelectView, Sel
 
     @Override
     public void scrollToEnd() {
-        recyclerView.smoothScrollToPosition(list.size()-1);
+        recyclerView.smoothScrollToPosition(list.size() - 1);
     }
 
     @Override
@@ -142,11 +138,9 @@ public class SelectViewImpl extends AppCompatActivity implements SelectView, Sel
 
     @Override
     public boolean itemInAdapter(String itemId) {
-        int i=0;
-        while(i<list.size())
-        {
-            if(list.get(i).getItemNumber().equals(itemId))
-            {
+        int i = 0;
+        while (i < list.size()) {
+            if (list.get(i).getItemNumber().equals(itemId)) {
                 return true;
             }
             i++;

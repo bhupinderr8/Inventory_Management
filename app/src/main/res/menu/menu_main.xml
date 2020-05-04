@@ -17,8 +17,8 @@
         android:id="@+id/action_add_items"
         android:title="@string/add_items" />
     <item
-        android:id="@+id/action_add_buyer"
-        android:title="Add Buyer" />
+        android:id="@+id/action_add_supplier"
+        android:title="@string/add_supplier" />
     <item
         android:id="@+id/logout"
         android:icon="@drawable/logout"

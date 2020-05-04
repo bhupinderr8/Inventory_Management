@@ -2,7 +2,7 @@ package com.example.inventory.ItemDetail;
 
 import android.util.Log;
 
-import com.example.inventory.DataObject.buyerObject;
+import com.example.inventory.DataObject.supplierObject;
 import com.example.inventory.DataObject.itemObject;
 import com.example.inventory.utils.FireBaseHelper;
 
@@ -20,14 +20,14 @@ public class DetailsPresenterImpl implements DetailsPresenter {
         this.view = view;
         this.repository = new FireBaseHelper();
         Log.e(LOG_TAG, view.getCurrentItemId());
-        if (view.getCurrentItemId()==null || view.getCurrentItemId().equals("")) {
+        if (view.getCurrentItemId() == null || view.getCurrentItemId().equals("")) {
             view.setTitle("Add New Item");
 
         } else {
             view.setTitle("Edit Item");
             repository.updateValues(view.getCurrentItemId());
         }
-        repository.getBuyerUpdates();
+        repository.getSupplierUpdates();
     }
 
     @Override
@@ -67,7 +67,7 @@ public class DetailsPresenterImpl implements DetailsPresenter {
     @Override
     public void onActionSave() {
         if (view.addItemToDb()) {
-            if (view.getCurrentItemId().equals("") || view.getCurrentItemId()==null) {
+            if (view.getCurrentItemId().equals("") || view.getCurrentItemId() == null) {
                 itemObject itemObj = new itemObject(
                         view.getCurrentName(),
                         view.getImage(),
@@ -106,8 +106,7 @@ public class DetailsPresenterImpl implements DetailsPresenter {
     }
 
     @Subscribe
-    public void onEventMainThread(itemObject item)
-    {
+    public void onEventMainThread(itemObject item) {
         view.setName(item.getItemName());
         view.setPrice(String.valueOf(item.getPrice()));
         view.setQuantity(String.valueOf(item.getQty()));
@@ -119,8 +118,8 @@ public class DetailsPresenterImpl implements DetailsPresenter {
     }
 
     @Subscribe
-    public void onEventMainThread(buyerObject item){
-        view.addBuyer(item);
+    public void onEventMainThread(supplierObject item) {
+        view.addSupplier(item);
     }
 
 }

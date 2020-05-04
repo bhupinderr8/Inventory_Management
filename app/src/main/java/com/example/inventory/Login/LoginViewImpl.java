@@ -2,14 +2,13 @@ package com.example.inventory.Login;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.inventory.ItemsList.ItemsListViewImpl;
 import com.example.inventory.R;
@@ -17,7 +16,7 @@ import com.example.inventory.Register.RegisterViewImpl;
 import com.example.inventory.utils.Session;
 import com.example.inventory.utils.SessionImpl;
 
-public class LoginViewImpl extends AppCompatActivity implements LoginView{
+public class LoginViewImpl extends AppCompatActivity implements LoginView {
     private EditText usernameEditText;
     private EditText passwordEditText;
     private FrameLayout loginButton;
@@ -50,13 +49,11 @@ public class LoginViewImpl extends AppCompatActivity implements LoginView{
         super.onStop();
     }
 
-    public void registerUser(View view)
-    {
+    public void registerUser(View view) {
         startActivity(new Intent(LoginViewImpl.this, RegisterViewImpl.class));
     }
 
-    public void loginUser(View view)
-    {
+    public void loginUser(View view) {
         presenter.initSignIn(getUserName(), getPassword());
     }
 
@@ -77,8 +74,7 @@ public class LoginViewImpl extends AppCompatActivity implements LoginView{
     }
 
     @Override
-    public void clearText()
-    {
+    public void clearText() {
         usernameEditText.getText().clear();
         passwordEditText.getText().clear();
     }
@@ -89,8 +85,7 @@ public class LoginViewImpl extends AppCompatActivity implements LoginView{
     }
 
     @Override
-    public void show(String val)
-    {
+    public void show(String val) {
         Toast.makeText(this, val, Toast.LENGTH_LONG).show();
     }
 

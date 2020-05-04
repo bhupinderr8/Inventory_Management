@@ -1,9 +1,5 @@
 package com.example.inventory.ItemsList;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,21 +7,25 @@ import android.view.MenuItem;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.example.inventory.AddBuyer.AddBuyerViewImpl;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.inventory.AddSupplier.AddSupplierViewImpl;
+import com.example.inventory.DataObject.itemObject;
 import com.example.inventory.ItemDetail.DetailsViewImpl;
 import com.example.inventory.Login.LoginViewImpl;
 import com.example.inventory.Order.SelectViewImpl;
 import com.example.inventory.R;
 import com.example.inventory.utils.SessionImpl;
-import com.example.inventory.DataObject.itemObject;
 
 import java.util.ArrayList;
 
 public class ItemsListViewImpl extends AppCompatActivity implements OnClickListener, ItemsListView {
 
     private final static String LOG_TAG = ItemsListViewImpl.class.getCanonicalName();
-    private RecyclerView recyclerView;
     ItemAdapter adapter;
+    private RecyclerView recyclerView;
     private ItemsListPresenter presenter;
     private ArrayList<itemObject> list;
     private SearchView searchView;
@@ -90,16 +90,15 @@ public class ItemsListViewImpl extends AppCompatActivity implements OnClickListe
             case R.id.action_add_items:
                 presenter.OnAddItem();
                 break;
-            case R.id.action_add_buyer:
-                presenter.OnAddBuyer();
+            case R.id.action_add_supplier:
+                presenter.OnAddSupplier();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void launchLoginActivity()
-    {
+    public void launchLoginActivity() {
         Intent intent = new Intent(ItemsListViewImpl.this, LoginViewImpl.class);
         startActivity(intent);
         finish();
@@ -112,7 +111,7 @@ public class ItemsListViewImpl extends AppCompatActivity implements OnClickListe
 
     @Override
     public void scrollToEnd() {
-        recyclerView.smoothScrollToPosition(list.size()-1);
+        recyclerView.smoothScrollToPosition(list.size() - 1);
     }
 
     @Override
@@ -122,11 +121,9 @@ public class ItemsListViewImpl extends AppCompatActivity implements OnClickListe
 
     @Override
     public boolean itemInAdapter(String itemId) {
-        int i=0;
-        while(i<list.size())
-        {
-            if(list.get(i).getItemNumber().equals(itemId))
-            {
+        int i = 0;
+        while (i < list.size()) {
+            if (list.get(i).getItemNumber().equals(itemId)) {
                 return true;
             }
             i++;
@@ -148,8 +145,8 @@ public class ItemsListViewImpl extends AppCompatActivity implements OnClickListe
     }
 
     @Override
-    public void launchAddBuyerActivity() {
-        Intent intent = new Intent(ItemsListViewImpl.this, AddBuyerViewImpl.class);
+    public void launchAddSupplierActivity() {
+        Intent intent = new Intent(ItemsListViewImpl.this, AddSupplierViewImpl.class);
         startActivity(intent);
     }
 
@@ -175,7 +172,7 @@ public class ItemsListViewImpl extends AppCompatActivity implements OnClickListe
     @Override
     public void setAdapter() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ItemAdapter(list,this);
+        adapter = new ItemAdapter(list, this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -191,11 +188,9 @@ public class ItemsListViewImpl extends AppCompatActivity implements OnClickListe
 
     @Override
     public void removeValueFromAdapter(String itemId) {
-        int i=0;
-        while(i<list.size())
-        {
-            if(list.get(i).getItemNumber().equals(itemId))
-            {
+        int i = 0;
+        while (i < list.size()) {
+            if (list.get(i).getItemNumber().equals(itemId)) {
                 list.remove(i);
                 return;
             }

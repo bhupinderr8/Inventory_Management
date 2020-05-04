@@ -10,6 +10,7 @@ public class RegisterPresenterImpl implements RegisterPresenter {
 
     RegisterView view;
     RegisterRepository repository;
+
     public RegisterPresenterImpl(RegisterViewImpl view) {
         this.view = view;
         repository = new FireBaseHelper();
@@ -33,10 +34,8 @@ public class RegisterPresenterImpl implements RegisterPresenter {
     }
 
     @Subscribe
-    public void onEventMainThread(RegisterEvent event)
-    {
-        if(event.getEventType() == RegisterEvent.onSignUpSuccess)
-        {
+    public void onEventMainThread(RegisterEvent event) {
+        if (event.getEventType() == RegisterEvent.onSignUpSuccess) {
             view.hideProgess();
             view.onSignupSuccess();
         }

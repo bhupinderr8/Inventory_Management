@@ -61,9 +61,10 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.SelectView
     class SelectViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView;
-        TextView price,productName;
+        TextView price, productName;
         TextView qty;
         SeekBar qtySeekBar;
+
         public SelectViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.select_image_view);
@@ -78,7 +79,7 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.SelectView
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     qty.setText(String.valueOf(progress));
-                    String p = String.valueOf(progress*model.getPrice()) + " Rs";
+                    String p = progress * model.getPrice() + " Rs";
                     price.setText(p);
                 }
 
@@ -94,8 +95,7 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.SelectView
             });
         }
 
-        public void setQtyTextChangeListener(final itemObject model)
-        {
+        public void setQtyTextChangeListener(final itemObject model) {
             qty.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -111,14 +111,14 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.SelectView
                 public void afterTextChanged(Editable s) {
                     view.informDataChanged();
                     String val = qty.getText().toString();
-                    if(val.isEmpty())
-                        val="0";
-                    Integer finalValue=Integer.parseInt(val);
-                    finalValue=Math.max(finalValue, 0);
-                    finalValue=Math.min(finalValue, model.getQty());
+                    if (val.isEmpty())
+                        val = "0";
+                    Integer finalValue = Integer.parseInt(val);
+                    finalValue = Math.max(finalValue, 0);
+                    finalValue = Math.min(finalValue, model.getQty());
 
 //                holder.qty.setText(String.valueOf(finalValue));
-                    if(finalValue>0)
+                    if (finalValue > 0)
                         mList.put(model.getItemNumber(), finalValue);
                     else
                         mList.remove(model.getItemNumber());

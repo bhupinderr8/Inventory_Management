@@ -49,10 +49,8 @@ public class ItemsListPresenterImpl implements ItemsListPresenter {
         view.scrollToEnd();
     }
 
-    private void addItemToAdapter(itemObject item)
-    {
-        if(!view.itemInAdapter(item.getItemNumber()))
-        {
+    private void addItemToAdapter(itemObject item) {
+        if (!view.itemInAdapter(item.getItemNumber())) {
             view.addItemToAdapter(item);
             view.OnAdapterChange();
             view.scrollToEnd();
@@ -77,8 +75,7 @@ public class ItemsListPresenterImpl implements ItemsListPresenter {
 
     @Override
     public void onQueryTextChange(String text) {
-        if(text.equals(""))
-        {
+        if (text.equals("")) {
             view.clearAllItems();
             pupulateItems();
             return;
@@ -100,31 +97,23 @@ public class ItemsListPresenterImpl implements ItemsListPresenter {
     }
 
     @Override
-    public void OnAddBuyer() {
-        view.launchAddBuyerActivity();
+    public void OnAddSupplier() {
+        view.launchAddSupplierActivity();
     }
 
     @Subscribe
-    public void onEventMainThread(ItemsListEvent event)
-    {
+    public void onEventMainThread(ItemsListEvent event) {
 
-        if(event.getEventType() == ItemsListEvent.onChildAdded)
-        {
+        if (event.getEventType() == ItemsListEvent.onChildAdded) {
             addItemToAdapter(event.getItem());
 
-        }
-        else if(event.getEventType() == ItemsListEvent.onChildRemoved)
-        {
+        } else if (event.getEventType() == ItemsListEvent.onChildRemoved) {
             view.removeValueFromAdapter(event.getItem().getItemNumber());
             view.OnAdapterChange();
-        }
-        else if(event.getEventType() == ItemsListEvent.onChildUpdated)
-        {
+        } else if (event.getEventType() == ItemsListEvent.onChildUpdated) {
             view.removeValueFromAdapter(event.getItem().getItemNumber());
             addItemToAdapter(event.getItem());
-        }
-        else
-        {
+        } else {
             view.show("Something Went Wrong");
         }
     }
