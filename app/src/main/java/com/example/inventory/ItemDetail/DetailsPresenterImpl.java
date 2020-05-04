@@ -12,7 +12,7 @@ import org.greenrobot.eventbus.Subscribe;
 public class DetailsPresenterImpl implements DetailsPresenter {
 
     private static final String LOG_TAG = DetailsPresenter.class.getCanonicalName();
-
+    private static String currentSellerId=null;
     DetailsView view;
     DetailsRepository repository;
 
@@ -110,16 +110,26 @@ public class DetailsPresenterImpl implements DetailsPresenter {
         view.setName(item.getItemName());
         view.setPrice(String.valueOf(item.getPrice()));
         view.setQuantity(String.valueOf(item.getQty()));
+        view.setDescription(item.getDescription());
+        view.setDescriptionEnable(false);
         view.setImage(item.getImage());
         view.setSpinnerEnable(false);
+        view.setPriceSeekBarEnable(false);
         view.setNameEnable(false);
         view.setPriceEnable(false);
         view.setImageEnable(false);
+        currentSellerId = item.getSellerId();
     }
 
     @Subscribe
     public void onEventMainThread(supplierObject item) {
-        view.addSupplier(item);
+        if(view.getCurrentItemId().equals("") || view.getCurrentItemId() == null){
+            view.addSupplier(item);
+        }
+        else if(currentSellerId.equals(item.getSupplierId())){
+            view.setSupplierName(item.getName());
+        }
+
     }
 
 }

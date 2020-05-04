@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -49,7 +49,8 @@
                 android:hint="@string/price_title"
                 android:inputType="numberDecimal"
                 android:textAlignment="center"
-                android:layout_width="0dp" />
+                android:layout_width="0dp"
+                android:autofillHints="" />
 
         </LinearLayout>
 
@@ -81,12 +82,13 @@
                 android:ems="10"
                 android:hint="@string/quantity_title"
                 android:inputType="numberDecimal"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:importantForAutofill="no" />
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/supplier_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -113,7 +115,8 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="8dp"
-            android:background="@drawable/text_background" />
+            android:background="@drawable/text_background"
+            android:contentDescription="TODO" />
 
         <EditText
             android:id="@+id/description"

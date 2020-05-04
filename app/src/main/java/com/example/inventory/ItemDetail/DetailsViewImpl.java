@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,6 +45,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView {
     DetailsPresenter presenter;
     SeekBar priceSeekBar;
     SeekBar qtySeekBar;
+    TextView supplierTextView;
     Spinner spinner;
     ArrayAdapter<supplierObject> supplierAdapter;
 
@@ -58,6 +60,7 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView {
         priceEdit = findViewById(R.id.priceEditText);
         quantityEdit = findViewById(R.id.qtyEditText);
         imageView = findViewById(R.id.itemImage);
+        supplierTextView = findViewById(R.id.supplier_text_view);
         spinner = findViewById(R.id.spinner_supplier_option);
         supplierAdapter = new ArrayAdapter<supplierObject>(this,
                 R.layout.drop_down_item);
@@ -67,7 +70,6 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView {
         qtySeekBar = findViewById(R.id.qtySeekBar);
         priceSeekBar = findViewById(R.id.priceSeekBar);
         presenter = new DetailsPresenterImpl(this);
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -399,6 +401,26 @@ public class DetailsViewImpl extends AppCompatActivity implements DetailsView {
     @Override
     public void setSpinnerEnable(boolean b) {
         spinner.setEnabled(b);
+    }
+
+    @Override
+    public void setPriceSeekBarEnable(boolean b) {
+        priceSeekBar.setEnabled(b);
+    }
+
+    @Override
+    public void setDescription(String description) {
+        itemDescription.setText(description);
+    }
+
+    @Override
+    public void setDescriptionEnable(boolean b) {
+        itemDescription.setEnabled(b);
+    }
+
+    @Override
+    public void setSupplierName(String name) {
+        supplierTextView.setText(name);
     }
 
     @Override

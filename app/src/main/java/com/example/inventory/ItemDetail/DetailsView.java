@@ -48,4 +48,13 @@ public interface DetailsView {
     String getCurrentSellerId();
 
     void setSpinnerEnable(boolean b);
+
+    void setPriceSeekBarEnable(boolean b);
+
+
+    void setDescription(String description);
+
+    void setDescriptionEnable(boolean b);
+
+    void setSupplierName(String name);
 }

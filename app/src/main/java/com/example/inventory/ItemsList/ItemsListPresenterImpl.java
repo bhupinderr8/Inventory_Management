@@ -101,6 +101,12 @@ public class ItemsListPresenterImpl implements ItemsListPresenter {
         view.launchAddSupplierActivity();
     }
 
+    @Override
+    public void onResume() {
+        view.clearAllItems();
+        repository.retrieveItems();
+    }
+
     @Subscribe
     public void onEventMainThread(ItemsListEvent event) {
 

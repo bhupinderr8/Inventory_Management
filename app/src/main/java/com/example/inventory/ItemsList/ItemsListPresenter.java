@@ -16,4 +16,6 @@ public interface ItemsListPresenter {
     void OnAddItem();
 
     void OnAddSupplier();
+
+    void onResume();
 }

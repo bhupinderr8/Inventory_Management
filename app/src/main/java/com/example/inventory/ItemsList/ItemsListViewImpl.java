@@ -54,6 +54,7 @@ public class ItemsListViewImpl extends AppCompatActivity implements OnClickListe
 
     @Override
     protected void onResume() {
+        presenter.onResume();
         super.onResume();
     }
 

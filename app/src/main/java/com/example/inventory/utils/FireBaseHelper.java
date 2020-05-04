@@ -148,10 +148,6 @@ public class FireBaseHelper implements RegisterRepository, LoginRepository, Item
         });
     }
 
-    public Query getItemRef() {
-        return mDatabase.child(ITEM_TABLE);
-    }
-
     public void insertSupplier(final supplierObject obj) {
 
         mDatabase.child(SUPPLIER_TABLE).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -182,26 +178,6 @@ public class FireBaseHelper implements RegisterRepository, LoginRepository, Item
             @Override
             public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                 EventBus.getDefault().post(new RegisterEvent(RegisterEvent.onSignUpSuccess));
-            }
-        });
-    }
-
-    public void updateValues(final DetailsViewImpl detailsViewImpl, final String itemId) {
-        mDatabase.child(ITEM_TABLE).addListenerForSingleValueEvent(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if (child.getKey().equals(itemId)) {
-                        detailsViewImpl.updateValues(Objects.requireNonNull(child.getValue(itemObject.class)));
-                        return;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
