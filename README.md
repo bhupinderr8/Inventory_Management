@@ -16,14 +16,14 @@
 
 ## Class Structure
 
-
+![](UML/Login.png)
 
 - As shown in the fig. above, to separate the model, view and the presenter, an interface is provided for the communication.
 - The interface further helps in decoupling the components of the system. As the implementation can be changed in further iterations.
 
 ## Database
 
-
+![](UML/DataBase.png)
 
 - To use the cloud-based library in this application, the FirebaseHelper class implements the interfaces used by all the presenters in this application.
 - The class itself uses **the singleton pattern**, to connect with the Firebase. It restricts the number of open connections with the server to one.
