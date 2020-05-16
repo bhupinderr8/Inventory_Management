@@ -3,8 +3,7 @@
 - This is a cloud-based inventory management android application. Firebase is used as a real-time cloud-based database.
 - Provided with an authentication system, multiple users share inventory and each of them can update the data.
 - The services provided to the users are
-
-1. 1. Add item.
+   1. Add item.
    2. Edit item.
    3. Create a new order.
 
